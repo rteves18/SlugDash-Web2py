@@ -21,6 +21,18 @@ def index():
     return dict(message=T('Welcome to web2py!'))
 
 
+""" Displays form for the user to register"""
+def display_form():
+    form = SQLFORM(db.register)
+    if form.accepts(request, session):
+        response.flash = 'Thanks! The form has been submitted.'
+    elif form.errors:
+        response.flash = 'Please correct the error(s).'
+    else:
+        response.flash = 'Try again - no fields can be empty.'
+    return dict(form=form)
+
+
 def user():
     """
     exposes:

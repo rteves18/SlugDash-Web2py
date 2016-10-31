@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+
+    {{extend 'layout.html'}}
+    <center>
+    <h2>Input form</h2>
+        {{=form}}
+    <h2>Submitted variables</h2>
+        {{=BEAUTIFY(request.vars)}}
+    <h2>Accepted variables</h2>
+        {{=BEAUTIFY(form.vars)}}
+    <h2>Errors in form</h2>
+        {{=BEAUTIFY(form.errors)}}
+    </center>
+
+</body>
+</html>
