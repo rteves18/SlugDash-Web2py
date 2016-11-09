@@ -1,0 +1,102 @@
+
+{{backimage = URL('static','images/background_test.jpg')}}
+<div class="hero-unit" style="background-image: url('{{=backimage}}')" >
+
+
+{{extend 'layout.html'}}
+
+
+{{block head}}
+<script src="{{=URL('static', 'js/vue.js')}}"></script>
+<script>
+    var posts_url = "{{=URL('api', 'get_posts')}}";
+    var add_post_url = "{{=URL('api', 'add_post', user_signature=True)}}";
+    var del_post_url = "{{=URL('api', 'del_post', user_signature=True)}}";
+    var edit_post_url = "{{=URL('api', 'edit_post', user_signature=True)}}";
+</script>
+{{end}}
+
+<div class="main_content">
+    <h2 class="text_1"> Posts</h2>
+
+    <div id="vue-div" class="display:none">
+        <!-- Your code goes here.  Remember to call $("#vue-div").show() once you get the data for the first time. -->
+        <div class = "button_bar">
+             <button v-if="!is_adding_post && logged_in" class="btn btn-danger btn-sm" v-on:click="add_post_button()" v-bind:class="{'disabled': !logged_in}">
+                Add new post
+            </button>
+            <button v-if="is_adding_post && logged_in" class="btn btn-warning btn-sm" v-on:click="add_post_button()">
+                Cancel
+            </button>
+        </div>
+
+        <!--Display form for post-->
+        <div v-if="is_adding_post" id="add_post_div"><!--add && logged_in to check-->
+            <form action="#" v-on:submit.prevent="add_post" class="form-vertical" enctype="multipart/form-data" method="post">
+                <div>
+                    <label for="msg">Message:</label>
+                    <div class="textbox" id="add-new-post">
+                        <textarea v-model="form_post" placeholder="Enter text here"></textarea>
+                    </div>
+                </div>
+            </form>
+
+            <!--Submit Button-->
+            <div class="form-group" id="submit_record__row">
+                <div>
+                    <button v-if="is_adding_post" class="btn btn-primary btn-sm" v-on:click="add_load()">
+                        Post
+                    </button>
+                </div>
+            </div>
+
+        </div>
+
+        <!--Div to display posts-->
+        <div v-for="post in posts" class="post">
+            <p v-if="!is_edit || (edit_id !== post.id)">${post.post_content}</p>
+            <div v-if="is_edit && (edit_id === post.id)">
+            <textarea v-model="post.post_content"></textarea> <br>
+
+            <input id="edit_post_submit" class="btn btn-default" type="submit" v-on:click="edit_post(post.id, post.post_content)" value="Post"/>
+            <button class="btn btn-warning btn-sm" v-on:click="edit_cancel_button()">
+                Cancel
+            </button>
+                </div>
+
+            <span class="author">
+                <b>Author:</b> ${post.user_email}
+            </span>
+
+            <span class="created">
+                <b>Created on:</b> ${post.created_on}
+            </span>
+
+            <span v-if="post.is_updated" class="updated">
+                <b>Updated on:</b> ${post.updated_on}
+            </span>
+
+            <!--Edit button-->
+            <span class="edit-but">
+                <i v-if="logged_in && post.is_author" class="fa fa-pencil-square-o" v-on:click="edit_post_button(post.id)"></i>
+            </span>
+
+            <!--Delete button-->
+            <span class="del-but">
+                <i v-if="logged_in && post.is_author" class="fa fa-trash-o" v-on:click="delete_post(post.id)"></i>
+            </span>
+        </div>
+
+        <!--Div to display Load More button-->
+        <div v-if="has_more" class="show_more">
+            <button id="load-more" class="btn btn-default" v-on:click="get_more()">Load more</button></div>
+        </div>
+
+    </div>
+
+
+
+<script src="{{=URL('static', 'js/default_index.js')}}"></script>
+
+
+   </div>

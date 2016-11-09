@@ -1,0 +1,83 @@
+body{
+    background-image: url("/images/background_test.jpg");
+}
+
+.text_1{
+    color: #ffffff;
+}
+
+/* line 2, ../sass/_main.scss */
+.post_listing {
+  margin: 10px 0px 10px 0px;
+  padding: 0 0 0 0px;
+}
+
+/* line 7, ../sass/_main.scss */
+.post_list {
+  padding-top: 10px;
+}
+
+/* line 11, ../sass/_main.scss */
+.post {
+  border-color: #cccccc;
+  border-style: solid;
+  border-width: 2px;
+  background: rgba(255,255,255,0.5);
+  margin: 20px 0px 20px 0px;
+  padding: 20px;
+  -moz-border-radius: 16px;
+  -webkit-border-radius: 16px;
+  border-radius: 16px;
+}
+
+
+span{
+  font-style: italic;
+  color: orangered;
+  font-size: 12px;
+}
+
+span.edit-but{
+  margin-left: 30px;
+}
+
+span.del-but{
+  margin-left: 30px;
+}
+span.created{
+  margin-left: 30px;
+}
+
+span.updated{
+  margin-left: 30px;
+}
+
+textarea {
+  /* To properly align multiline text fields with their labels */
+  vertical-align: top;
+  /* To give enough room to type some text */
+  height: 90px;
+  width: 780px;
+  border-color: #cccccc;
+  border-style: solid;
+  border-width: 2px;
+  background: white;
+  margin: 20px 0px 20px 0px;
+  padding: 20px;
+  -moz-border-radius: 16px;
+  -webkit-border-radius: 16px;
+  border-radius: 16px;
+}
+
+form.form-vertical{
+    border-color: #f2f2f2;
+  margin: left;
+  width: 1000px;
+    /* To see the outline of the form */
+  padding: 1em;
+}
+
+/*Adjust height of form*/
+input.form-control.string{
+  height: 60px;
+}
