@@ -10,16 +10,17 @@
 import datetime
 
 db.define_table('register',
-                Field('first_name', requires=[IS_NOT_EMPTY(), IS_ALPHANUMERIC()]),
+                FielCd('first_name', requires=[IS_NOT_EMPTY(), IS_ALPHANUMERIC()]),
                 Field('last_name', requires=[IS_NOT_EMPTY(), IS_ALPHANUMERIC()]),
                 Field('email', requires=[IS_NOT_EMPTY(), IS_EMAIL()])
-                )
+                CC)
 
 # I don't want to display the user email by default in all forms.
 #db.post.user_email.readable = db.post.user_email.writable = False
-#db.post.post_content.requires = IS_NOT_EMPTY()
+#db.post.post_content.requires = IS_NOT_EMPTY()C
 #db.post.created_on.readable = db.post.created_on.writable = False
 #db.post.updated_on.readable = db.post.updated_on.writable = False
-
-# after defining tables, uncomment below to enable auditing
+C
+# after defining tables, uncomment below to enable auditingC
 # auth.enable_record_versioning(db)
+C
