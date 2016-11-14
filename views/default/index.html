@@ -1,97 +1,96 @@
 {{extend 'layout.html'}}
 
-
 {{block head}}
 <script src="{{=URL('static', 'js/vue.js')}}"></script>
+<script src="https://checkout.stripe.com/checkout.js"></script>
 <script>
-    var posts_url = "{{=URL('api', 'get_posts')}}";
-    var add_post_url = "{{=URL('api', 'add_post', user_signature=True)}}";
-    var del_post_url = "{{=URL('api', 'del_post', user_signature=True)}}";
-    var edit_post_url = "{{=URL('api', 'edit_post', user_signature=True)}}";
+    var products_url = "{{=URL('default', 'get_products')}}";
+    var purchase_url = "{{=URL('default', 'purchase', hmac_key=session.hmac_key)}}"
 </script>
 {{end}}
 
 <div class="main_content">
-    <h2 class="text_1"> Posts</h2>
-
-    <div id="vue-div" class="display:none">
-        <!-- Your code goes here.  Remember to call $("#vue-div").show() once you get the data for the first time. -->
-        <div class = "button_bar">
-             <button v-if="!is_adding_post && logged_in" class="btn btn-danger btn-sm" v-on:click="add_post_button()" v-bind:class="{'disabled': !logged_in}">
-                Add new post
-            </button>
-            <button v-if="is_adding_post && logged_in" class="btn btn-warning btn-sm" v-on:click="add_post_button()">
-                Cancel
-            </button>
+    <div id="vue-div" style="display:none">
+        <div class="control_bar container">
+            <div class="search_div threequarters">
+                <span v-if="page=='prod'">
+                    <input class="search_input" v-model="product_search"/>
+                    <button class="btn" v-on:click="do_search"><i class="fa fa-search fa-lg"></i></button>
+                </span>
+                <span v-if="page=='cart'" class="page_title"><i class="fa fa-shopping-cart"></i> Your Shopping Cart</span>
+            </div>
+            <div class="shopping_button quarter">
+                <span v-if="page=='prod'">
+                    <button class="btn orange" v-on:click="goto('cart')">
+                        <i class="fa fa-lg fa-shopping-cart"></i> ${cart_size}
+                    </button>
+                </span>
+                <span v-if="page=='cart'">
+                    <button class="btn" v-on:click="goto('prod')"> Continue shopping </button>
+                </span>
+            </div>
         </div>
 
-        <!--Display form for post-->
-        <div v-if="is_adding_post" id="add_post_div"><!--add && logged_in to check-->
-            <form action="#" v-on:submit.prevent="add_post" class="form-vertical" enctype="multipart/form-data" method="post">
-                <div>
-                    <label for="msg">Message:</label>
-                    <div class="textbox" id="add-new-post">
-                        <textarea v-model="form_post" placeholder="Enter text here"></textarea>
-                    </div>
+        <div v-if="page=='prod'" id="products_list">
+            <div v-for="product in products" class="container">
+                <div class="third prod_image">
+                    <img v-bind:src="product.image_url" width="100%" class="product_image"/>
                 </div>
-            </form>
+                <div class="twothirds product_info">
+                    <div class="product_name"><h2>${product.product_name}</h2></div>
+                    <div class="product_quantity_price">
+                        <span class="product_price">$ ${product.price}</span>
+                        <span class="product_quantity">Quantity in stock: ${product.quantity}</span>
+                        <span class="buy_buttons">
+                            <button class="btn" v-on:click="inc_desired_quantity(product._idx, 1)"><i class="fa fa-plus"></i></button>
+                            <span class="desired_quantity">${product.desired_quantity}</span>
+                            <button class="btn" v-on:click="inc_desired_quantity(product._idx, -1)"><i class="fa fa-minus"></i></button>
+                            <button class="btn red" v-on:click="buy_product(product._idx)"><i class="fa fa-lg fa-shopping-cart"></i> Buy</button>
+                        </span>
+                    </div>
+                    <div class="product_description">
+                        <p>${product.description}</p>
+                    </div>
 
-            <!--Submit Button-->
-            <div class="form-group" id="submit_record__row">
-                <div>
-                    <button v-if="is_adding_post" class="btn btn-primary btn-sm" v-on:click="add_load()">
-                        Post
-                    </button>
+                </div>
+
+            </div>
+        </div>
+
+        <div v-if="page=='cart'" id="cart_list">
+            <div v-if="cart.length == 0" class="container">
+                <div class="cart_empty_msg">
+                    Your cart is empty
                 </div>
             </div>
-
-        </div>
-
-        <!--Div to display posts-->
-        <div v-for="post in posts" class="post">
-            <p v-if="!is_edit || (edit_id !== post.id)">${post.post_content}</p>
-            <div v-if="is_edit && (edit_id === post.id)">
-            <textarea v-model="post.post_content"></textarea> <br>
-
-            <input id="edit_post_submit" class="btn btn-default" type="submit" v-on:click="edit_post(post.id, post.post_content)" value="Post"/>
-            <button class="btn btn-warning btn-sm" v-on:click="edit_cancel_button()">
-                Cancel
-            </button>
+            <div v-for="product in cart" class="container">
+                <div class="col-md-3 prod_image third">
+                    <img v-bind:src="product.image_url" width="100%" class="product_image"/>
                 </div>
-
-            <span class="author">
-                <b>Author:</b> ${post.user_email}
-            </span>
-
-            <span class="created">
-                <b>Created on:</b> ${post.created_on}
-            </span>
-
-            <span v-if="post.is_updated" class="updated">
-                <b>Updated on:</b> ${post.updated_on}
-            </span>
-
-            <!--Edit button-->
-            <span class="edit-but">
-                <i v-if="logged_in && post.is_author" class="fa fa-pencil-square-o" v-on:click="edit_post_button(post.id)"></i>
-            </span>
-
-            <!--Delete button-->
-            <span class="del-but">
-                <i v-if="logged_in && post.is_author" class="fa fa-trash-o" v-on:click="delete_post(post.id)"></i>
-            </span>
-        </div>
-
-        <!--Div to display Load More button-->
-        <div v-if="has_more" class="show_more">
-            <button id="load-more" class="btn btn-default" v-on:click="get_more()">Load more</button></div>
+                <div class="col-md-10 product_info twothirds">
+                    <div class="product_name"><h2>${product.product_name}</h2></div>
+                    <div class="product_quantity_price">
+                        <span class="product_price">$ ${product.price}</span>
+                        <span class="product_quantity">Quantity in stock: ${product.quantity}</span>
+                        <span class="buy_buttons">
+                            <button class="btn" v-on:click="inc_cart_quantity(product._idx, 1)"><i class="fa fa-plus"></i></button>
+                            <span class="desired_quantity">${product.cart_quantity}</span>
+                            <button class="btn" v-on:click="inc_cart_quantity(product._idx, -1)"><i class="fa fa-minus"></i></button>
+                        </span>
+                    </div>
+                    <div class="product_description">
+                        <p>${product.description}</p>
+                    </div>
+                </div>
+            </div>
+            <div v-if="cart.length > 0" class="total_price">
+                Your total price: $ ${cart_total}
+                <button class="btn blue" v-on:click="pay()"><i class="fa fa-lg fa-credit-card"></i> Pay</button>
+            </div>
         </div>
 
     </div>
 
-
+</div>
 
 <script src="{{=URL('static', 'js/default_index.js')}}"></script>
-
-
-   </div>

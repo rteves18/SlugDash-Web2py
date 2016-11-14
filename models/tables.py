@@ -9,28 +9,37 @@
 
 import datetime
 
-"""===Gets Username's First and Last Name==="""
-def get_user_name_from_email(email):
-    """Returns a string corresponding to the user first and last names,
-    given the user email."""
-    u = db(db.auth_user.email == email).select().first()
-    if u is None:
-        return 'None'
-    else:
-        return ' '.join([u.first_name, u.last_name])
+# Product table.
+db.define_table('product',
+    Field('product_name'),
+    Field('quantity', 'integer'),
+    Field('price', 'float'),
+    Field('image', 'upload'),
+    Field('description', 'text'),
+)
+db.product.id.readable = db.product.id.writable = False
 
-db.define_table('post',
-                Field('user_email', default=auth.user.email if auth.user_id else None),
-                Field('post_content', 'text'),
-                Field('created_on', 'datetime', default=datetime.datetime.utcnow()),
-                Field('updated_on', 'datetime', update=datetime.datetime.utcnow()),
-                )
+db.define_table('customer_order',
+    Field('order_date', default=datetime.datetime.utcnow()),
+    Field('customer_info', 'blob'),
+    Field('transaction_token', 'blob'),
+    Field('cart', 'blob'),
+)
 
-# I don't want to display the user email by default in all forms.
-db.post.user_email.readable = db.post.user_email.writable = False
-db.post.post_content.requires = IS_NOT_EMPTY()
-db.post.created_on.readable = db.post.created_on.writable = False
-db.post.updated_on.readable = db.post.updated_on.writable = False
+# Let's define a secret key for stripe transactions.
+from gluon.utils import web2py_uuid
+if session.hmac_key is None:
+    session.hmac_key = web2py_uuid()
+
 
 # after defining tables, uncomment below to enable auditing
 # auth.enable_record_versioning(db)
+
+import json
+
+def nicefy(b):
+    if b is None:
+        return 'None'
+    obj = json.loads(b)
+    s = json.dumps(obj, indent=2)
+    return s

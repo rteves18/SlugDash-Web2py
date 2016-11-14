@@ -1,83 +1,57 @@
-body{
-    background-image: url("/images/background_test.jpg");
+/* line 1, ../sass/_main.scss */
+.colorful {
+  color: #bb8833;
 }
 
-.text_1{
-    color: #ffffff;
+/* line 5, ../sass/_main.scss */
+div.main_content {
+  padding: 20px;
 }
-
-/* line 2, ../sass/_main.scss */
-.post_listing {
-  margin: 10px 0px 10px 0px;
-  padding: 0 0 0 0px;
-}
-
 /* line 7, ../sass/_main.scss */
-.post_list {
-  padding-top: 10px;
+div.main_content button:focus {
+  border-color: white;
+  outline: none;
 }
-
-/* line 11, ../sass/_main.scss */
-.post {
-  border-color: #cccccc;
-  border-style: solid;
-  border-width: 2px;
-  background: rgba(255,255,255,0.5);
-  margin: 20px 0px 20px 0px;
-  padding: 20px;
-  -moz-border-radius: 16px;
-  -webkit-border-radius: 16px;
-  border-radius: 16px;
+/* line 12, ../sass/_main.scss */
+div.main_content input.search_input {
+  width: 80% !important;
 }
-
-
-span{
-  font-style: italic;
-  color: orangered;
-  font-size: 12px;
+/* line 15, ../sass/_main.scss */
+div.main_content div.product_description {
+  margin-top: 15px;
 }
-
-span.edit-but{
+/* line 18, ../sass/_main.scss */
+div.main_content span.buy_buttons {
   margin-left: 30px;
 }
-
-span.del-but{
+/* line 21, ../sass/_main.scss */
+div.main_content span.product_quantity {
   margin-left: 30px;
 }
-span.created{
-  margin-left: 30px;
+/* line 24, ../sass/_main.scss */
+div.main_content span.product_price {
+  font-size: 140%;
+  font-weight: bold;
 }
-
-span.updated{
-  margin-left: 30px;
+/* line 28, ../sass/_main.scss */
+div.main_content .product_image {
+  max-width: 300px;
 }
-
-textarea {
-  /* To properly align multiline text fields with their labels */
-  vertical-align: top;
-  /* To give enough room to type some text */
-  height: 90px;
-  width: 780px;
-  border-color: #cccccc;
-  border-style: solid;
-  border-width: 2px;
-  background: white;
-  margin: 20px 0px 20px 0px;
-  padding: 20px;
-  -moz-border-radius: 16px;
-  -webkit-border-radius: 16px;
-  border-radius: 16px;
+/* line 31, ../sass/_main.scss */
+div.main_content .shopping_button {
+  margin-top: 10px;
+  margin-bottom: 10px;
 }
-
-form.form-vertical{
-    border-color: #f2f2f2;
-  margin: left;
-  width: 1000px;
-    /* To see the outline of the form */
-  padding: 1em;
+/* line 35, ../sass/_main.scss */
+div.main_content .search_div {
+  margin-top: 10px;
+  margin-bottom: 10px;
 }
-
-/*Adjust height of form*/
-input.form-control.string{
-  height: 60px;
+/* line 39, ../sass/_main.scss */
+div.main_content .page_title {
+  font-size: 250%;
+}
+/* line 42, ../sass/_main.scss */
+div.main_content .total_price {
+  font-size: 150%;
 }

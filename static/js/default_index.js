@@ -13,153 +13,168 @@ var app = function() {
         }
     };
 
-    self.add_load = function (){
-        self.add_post();
-        self.get_posts();
-
-        self.get_posts();
+    // Enumerates an array.
+    var enumerate = function(v) {
+        var k=0;
+        return v.map(function(e) {e._idx = k++;});
     };
 
-    // gets the post url
-    function get_posts_url(start_idx, end_idx) {
-        var pp = {
-            start_idx: start_idx,
-            end_idx: end_idx
-        };
-        return posts_url + "?" + $.param(pp);
-    };
-
-    // displays the number of posts
-    self.get_posts = function () {
-        $.getJSON(get_posts_url(0, 4), function (data) {
-            self.vue.posts = data.posts;
-            self.vue.has_more = data.has_more;
-            self.vue.logged_in = data.logged_in;
-        })
-    };
-
-     self.load_current_post = function () {
-         var num_posts = self.vue.posts.length;
-        $.getJSON(get_posts_url(0, num_posts), function (data) {
-            self.vue.posts = data.posts;
-            self.vue.has_more = data.has_more;
-            self.vue.logged_in = data.logged_in;
-        })
-    };
-
-    // gets more post to display
-    self.get_more = function () {
-        var num_posts = self.vue.posts.length;
-        $.getJSON(get_posts_url(num_posts, num_posts + 4), function (data) {
-            self.vue.has_more = data.has_more;
-            self.extend(self.vue.posts, data.posts);
+    self.get_products = function () {
+        // Gets new products in response to a query, or to an initial page load.
+        $.getJSON(products_url, $.param({q: self.vue.product_search}), function(data) {
+            self.vue.products = data.products;
+            enumerate(self.vue.products);
         });
     };
 
-    // add post button toggle
-    self.add_post_button = function () {
-        // The button to add a track has been pressed.
-        //if(self.vue.logged_in)
-        self.vue.is_adding_post = !self.vue.is_adding_post;
+    self.store_cart = function() {
+        localStorage.cart = JSON.stringify(self.vue.cart);
     };
 
-    // adds posts to db
-    self.add_post = function() {
-        $.post(add_post_url, {
-                post_content: self.vue.form_post
+    self.read_cart = function() {
+        if (localStorage.cart) {
+            self.vue.cart = JSON.parse(localStorage.cart);
+        } else {
+            self.vue.cart = [];
+        }
+        self.update_cart();
+    };
+
+    self.inc_desired_quantity = function(product_idx, qty) {
+        // Inc and dec to desired quantity.
+        var p = self.vue.products[product_idx];
+        p.desired_quantity = Math.max(0, p.desired_quantity + qty);
+        p.desired_quantity = Math.min(p.quantity, p.desired_quantity);
+    };
+
+    self.inc_cart_quantity = function(product_idx, qty) {
+        // Inc and dec to desired quantity.
+        var p = self.vue.cart[product_idx];
+        p.cart_quantity = Math.max(0, p.cart_quantity + qty);
+        p.cart_quantity = Math.min(p.quantity, p.cart_quantity);
+        self.update_cart();
+        self.store_cart();
+    };
+
+    self.update_cart = function () {
+        enumerate(self.vue.cart);
+        var cart_size = 0;
+        var cart_total = 0;
+        for (var i = 0; i < self.vue.cart.length; i++) {
+            var q = self.vue.cart[i].cart_quantity;
+            if (q > 0) {
+                cart_size++;
+                cart_total += q * self.vue.cart[i].price;
+            }
+        }
+        self.vue.cart_size = cart_size;
+        self.vue.cart_total = cart_total;
+    };
+
+    self.buy_product = function(product_idx) {
+        var p = self.vue.products[product_idx];
+        // I need to put the product in the cart.
+        // Check if it is already there.
+        var already_present = false;
+        var found_idx = 0;
+        for (var i = 0; i < self.vue.cart.length; i++) {
+            if (self.vue.cart[i].id === p.id) {
+                already_present = true;
+                found_idx = i;
+            }
+        }
+        // If it's there, just replace the quantity; otherwise, insert it.
+        if (!already_present) {
+            found_idx = self.vue.cart.length;
+            self.vue.cart.push(p);
+        }
+        self.vue.cart[found_idx].cart_quantity = p.desired_quantity;
+
+        // Updates the amount of products in the cart.
+        self.update_cart();
+        self.store_cart();
+    };
+
+    self.customer_info = {}
+
+    self.goto = function (page) {
+        self.vue.page = page;
+        if (page == 'cart') {
+            // prepares the form.
+            self.stripe_instance = StripeCheckout.configure({
+                key: 'pk_test_CeE2VVxAs3MWCUDMQpWe8KcX',    //put your own publishable key here
+                image: 'https://stripe.com/img/documentation/checkout/marketplace.png',
+                locale: 'auto',
+                token: function(token, args) {
+                    console.log('got a token. sending data to localhost.');
+                    self.stripe_token = token;
+                    self.customer_info = args;
+                    self.send_data_to_server();
+                }
+            });
+        };
+
+    };
+
+    self.pay = function () {
+        self.stripe_instance.open({
+            name: "Your nice cart",
+            description: "Buy cart content",
+            billingAddress: true,
+            shippingAddress: true,
+            amount: Math.round(self.vue.cart_total * 100),
+        });
+    };
+
+    self.send_data_to_server = function () {
+        console.log("Payment for:", self.customer_info);
+        // Calls the server.
+        $.post(purchase_url,
+            {
+                customer_info: JSON.stringify(self.customer_info),
+                transaction_token: JSON.stringify(self.stripe_token),
+                amount: self.vue.cart_total,
+                cart: JSON.stringify(self.vue.cart),
             },
             function (data) {
-                //$.web2py.enableElement($("#add_post_submit"));
-                self.vue.posts.unshift(data.post);
-                self.vue.form_post = "";
-                self.vue.add_post_button(); // toggle the form so it goes away after submitting
-                //enumerate(self.vue.posts);
-            });
-    };
-
-    // edit post button toggle
-    self.edit_post_button = function(post_id) {
-        self.vue.is_edit = !self.vue.is_edit;
-        self.vue.edit_id = post_id;
-    };
-
-    self.edit_post = function (post_id, new_content) {
-        if(self.vue.is_edit)
-            self.vue.is_edit = !self.vue.is_edit;
-
-        $.post(edit_post_url,
-            {
-                post_id: post_id,
-                post_content: new_content
-            });
-        self.load_current_post();
-        self.load_current_post();
-    };
-
-    self.edit_cancel_button = function(){
-        if(self.vue.logged_in)
-        self.vue.is_edit = !self.vue.is_edit;
-        self.load_current_post();
-    };
-
-    // delete posts from db
-    self.delete_post = function(post_id) {
-        $.post(del_post_url,
-            {
-                post_id: post_id
-            },
-            function () {
-                var idx = null;
-                for (var i = 0; i < self.vue.posts.length; i++) {
-                    if (self.vue.posts[i].id === post_id) {
-                        // If I set this to i, it won't work, as the if below will
-                        // return false for items in first position.
-                        idx = i + 1;
-                        break;
-                    }
-                }
-                if (idx) {
-                    self.vue.posts.splice(idx - 1, 1);
-                }
+                // The order was successful.
+                self.vue.cart = [];
+                self.update_cart();
+                self.store_cart();
+                self.goto('prod');
+                $.web2py.flash("Thank you for your purchase");
             }
-        )
+        );
     };
 
-    // fields and methods declaration
     self.vue = new Vue({
         el: "#vue-div",
         delimiters: ['${', '}'],
         unsafeDelimiters: ['!{', '}'],
         data: {
-            is_adding_post: false,
-            posts: [],
-            logged_in: false,
-            has_more: false,
-            is_edit: false,
-            form_post: null,
-            edit_post_id: 0,
-            updated_on: null,
-            new_content: null,
-            edit_time: null,
-            is_updated: false
-            //edit_content: null,
-            //edit_old: null
+            products: [],
+            cart: [],
+            product_search: '',
+            cart_size: 0,
+            cart_total: 0,
+            page: 'prod'
         },
         methods: {
-            get_more: self.get_more,
-            add_post_button: self.add_post_button,
-            add_post: self.add_post,
-            edit_post: self.edit_post,
-            delete_post: self.delete_post,
-            edit_post_button: self.edit_post_button,
-            add_load: self.add_load,
-            edit_cancel_button: self.edit_cancel_button,
-            load_current_post: self.load_current_post
+            get_products: self.get_products,
+            inc_desired_quantity: self.inc_desired_quantity,
+            inc_cart_quantity: self.inc_cart_quantity,
+            buy_product: self.buy_product,
+            goto: self.goto,
+            do_search: self.get_products,
+            pay: self.pay
         }
+
     });
 
-    self.get_posts();
+    self.get_products();
+    self.read_cart();
     $("#vue-div").show();
+
 
     return self;
 };
