@@ -27,6 +27,8 @@ var app = function() {
         });
     };
 
+    // Change this to attach order to account
+    // Right now it is being attached to the session
     self.store_cart = function() {
         localStorage.cart = JSON.stringify(self.vue.cart);
     };
