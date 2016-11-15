@@ -97,12 +97,13 @@ var app = function() {
 
     self.customer_info = {}
 
+    // This can be done statically by initializing in the static/ directory
     self.goto = function (page) {
         self.vue.page = page;
         if (page == 'cart') {
             // prepares the form.
             self.stripe_instance = StripeCheckout.configure({
-                key: 'pk_test_CeE2VVxAs3MWCUDMQpWe8KcX',    //put your own publishable key here
+                key: 'pk_test_5wIP2WHoBbgZr9ICMpb2kYhV',    //put your own publishable key here
                 image: 'https://stripe.com/img/documentation/checkout/marketplace.png',
                 locale: 'auto',
                 token: function(token, args) {
@@ -116,16 +117,19 @@ var app = function() {
 
     };
 
+    // This function is called when the user hits pay button
+    // It will display Stripe's pop-up checkout box
     self.pay = function () {
         self.stripe_instance.open({
-            name: "Your nice cart",
-            description: "Buy cart content",
+            name: "Slug Dash Checkout",
+            description: "Enter your info",
             billingAddress: true,
             shippingAddress: true,
             amount: Math.round(self.vue.cart_total * 100),
         });
     };
 
+    // Write order to database and reset cart
     self.send_data_to_server = function () {
         console.log("Payment for:", self.customer_info);
         // Calls the server.
@@ -133,16 +137,16 @@ var app = function() {
             {
                 customer_info: JSON.stringify(self.customer_info),
                 transaction_token: JSON.stringify(self.stripe_token),
-                amount: self.vue.cart_total,
+                order_total: self.vue.cart_total, // changed var amount to order_total
                 cart: JSON.stringify(self.vue.cart),
             },
             function (data) {
-                // The order was successful.
+                // Order successfully placed, reset cart
                 self.vue.cart = [];
                 self.update_cart();
                 self.store_cart();
                 self.goto('prod');
-                $.web2py.flash("Thank you for your purchase");
+                $.web2py.flash("Thank you for your purchase"); // Not working - not flashing yet
             }
         );
     };

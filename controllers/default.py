@@ -13,6 +13,24 @@ def index():
     """
     return dict()
 
+def set_timezone():
+    """Ajax call to set the timezone information for the session."""
+    tz_name = request.vars.name
+    # Validates the name.
+    from pytz import all_timezones_set
+    if tz_name in all_timezones_set:
+        session.user_timezone = tz_name
+        # If the user is logged in, sets also the timezone for the user.
+        # Otherwise, it can happen that a user expires a cookie, then click on edit.
+        # When the user is presented the edit page, the translation is done according to UTC,
+        # but when the user is done editing, due to autodetection, the user is then in
+        # it's own time zone, and the dates of an assignment change.
+        # This really happened.
+        if auth.user is not None:
+            db.auth_user[auth.user.id] = dict(user_timezone = tz_name)
+        logger.info("Set timezone to: %r" % tz_name)
+    else:
+        logger.warning("Invalid timezone received: %r" % tz_name)
 
 def get_products():
     """Gets the list of products, possibly in response to a query."""
@@ -38,6 +56,7 @@ def purchase():
     if not URL.verify(request, hmac_key=session.hmac_key):
         raise HTTP(500)
     # Creates the charge.
+    """ This is not working properly. Purchase does not go through
     import stripe
     # Your secret key.
     stripe.api_key = "sk_test_pZ4tD6Pq0VuUCkSyXJ6Feb2T"
@@ -54,9 +73,15 @@ def purchase():
         logger.info("The card has been declined.")
         logger.info("%r" % traceback.format_exc())
         return "nok"
+    """
+
     db.customer_order.insert(
         customer_info=request.vars.customer_info,
-        transaction_token=json.dumps(token),
+        transaction_token=request.vars.transaction_token,
+        order_total=request.vars.order_total,
+        customer_name=request.vars.customer_name,
+        user_email=request.vars.user_email,
+        #transaction_token=json.dumps(token),
         cart=request.vars.cart)
     return "ok"
 
@@ -79,12 +104,27 @@ def product_management():
     return dict(form=form)
 
 
+""" Viewing orders
+Need to work on:
+    + Display what/when they ordered
+    + Display if a payment for that order is successful
+    + Create group authentication to prevent certain users from accessing this page
+    + Maybe work on improving the UI
+"""
 @auth.requires_login()
 def view_orders():
     q = db.customer_order # This queries for all products.
     db.customer_order.customer_info.represent = lambda v, r: nicefy(v)
-    db.customer_order.transaction_token.represent = lambda v, r: nicefy(v)
-    db.customer_order.cart.represent = lambda v, r: nicefy(v)
+    #db.customer_order.transaction_token.represent = lambda v, r: nicefy(v)
+    #db.customer_order.cart.represent = lambda v, r: nicefy(v)
+
+    orders = db().select(db.customer_order.ALL)
+    #db().select(db.customer_order.order_total)
+    for order in orders:
+        order.customer_info = json.loads(order.customer_info)
+        print(order.customer_info)
+        print(order.cart)
+
     form = SQLFORM.grid(
         q,
         editable=True,
@@ -93,7 +133,7 @@ def view_orders():
         deletable=True,
         details=True,
     )
-    return dict(form=form)
+    return dict(form=form, orders=orders)
 
 
 def user():
@@ -132,5 +172,3 @@ def call():
     supports xml, json, xmlrpc, jsonrpc, amfrpc, rss, csv
     """
     return service()
-
-

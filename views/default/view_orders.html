@@ -1,0 +1,57 @@
+{{extend 'layout.html'}}
+
+<!DOCTYPE html>
+<html>
+<head>
+<style>
+table {
+	font-family: arial, sans-serif;
+	border-collapse: collapse;
+	width: 100%;
+}
+
+td, th {
+	border: 1px solid #dddddd;
+	text-align: center;
+	padding: 8px;
+
+}
+
+tr:nth-child(even) {
+	background-color: #dddddd;
+}
+
+</style>
+</head>
+<body>
+    <br>
+    <h2 align="center">Orders Placed</h2>
+	<table>
+		<tr>
+			<th>Name</th>
+			<th>Shipping Address</th>
+			<th>Order Total</th>
+			<th>Order Time</th>
+            <th>Purchased Item</th>
+		</tr>
+		{{for o in orders:}}
+		<tr>
+			<th>{{=o.customer_info['shipping_name']}}</th>
+			<th>
+				{{=o.customer_info['shipping_address_line1']}},
+				{{=o.customer_info['shipping_address_city']}},
+				{{=o.customer_info['shipping_address_state']}},
+				{{=o.customer_info['shipping_address_zip']}}
+			</th>
+			<th>${{=o.order_total}}</th>
+			<th>{{=o.order_date}}</th>
+            <th>
+            </th>
+		</tr>
+		{{pass}}
+	</table>
+    <br>
+    {{=form}}
+</body>
+</html>
+

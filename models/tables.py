@@ -9,6 +9,9 @@
 
 import datetime
 
+# Add DATE_FORMAT... from tables.py of local_time branch here
+# Add my_validator.py to models/
+
 # Product table.
 db.define_table('product',
     Field('product_name'),
@@ -19,18 +22,21 @@ db.define_table('product',
 )
 db.product.id.readable = db.product.id.writable = False
 
+# Customer order table
 db.define_table('customer_order',
-    Field('order_date', default=datetime.datetime.utcnow()),
-    Field('customer_info', 'blob'),
-    Field('transaction_token', 'blob'),
-    Field('cart', 'blob'),
-)
+                Field('order_date', default=datetime.datetime.utcnow()),
+                Field('user_email', default=auth.user.email if auth.user_id else None),
+                Field('customer_name', 'text'),
+                Field('order_total', 'float'),
+                Field('customer_info', 'blob'),
+                Field('transaction_token', 'blob'),
+                Field('cart', 'blob'),
+                )
 
 # Let's define a secret key for stripe transactions.
 from gluon.utils import web2py_uuid
 if session.hmac_key is None:
     session.hmac_key = web2py_uuid()
-
 
 # after defining tables, uncomment below to enable auditing
 # auth.enable_record_versioning(db)
