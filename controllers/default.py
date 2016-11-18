@@ -119,11 +119,14 @@ def view_orders():
     #db.customer_order.cart.represent = lambda v, r: nicefy(v)
 
     orders = db().select(db.customer_order.ALL)
+
     #db().select(db.customer_order.order_total)
     for order in orders:
         order.customer_info = json.loads(order.customer_info)
+        order.cart = json.loads(order.cart)
         print(order.customer_info)
         print(order.cart)
+
 
     form = SQLFORM.grid(
         q,
