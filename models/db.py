@@ -85,7 +85,7 @@ db.define_table(
     Field('phone'),
     Field('registration_key', length=512, writable=False, readable=False, default=''),
     Field('reset_password_key', length=512, writable=False, readable = False, default=''),
-    Field('registration_id', length=512, writeable=False, readable=False, default=''),
+    Field('registration_id', length=512, writable=False, readable=False, default=''),
 )
 
 #validators
