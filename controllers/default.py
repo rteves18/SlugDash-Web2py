@@ -56,12 +56,12 @@ def purchase():
     if not URL.verify(request, hmac_key=session.hmac_key):
         raise HTTP(500)
     # Creates the charge.
-    """ This is not working properly. Purchase does not go through
+    """ This is not working properly. Purchase does not go through"""
     import stripe
     # Your secret key.
     stripe.api_key = "sk_test_pZ4tD6Pq0VuUCkSyXJ6Feb2T"
     token = json.loads(request.vars.transaction_token)
-    amount = float(request.vars.amount)
+    amount = float(request.vars.order_total)
     try:
         charge = stripe.Charge.create(
             amount=int(amount * 100),
@@ -73,15 +73,13 @@ def purchase():
         logger.info("The card has been declined.")
         logger.info("%r" % traceback.format_exc())
         return "nok"
-    """
 
     db.customer_order.insert(
         customer_info=request.vars.customer_info,
-        transaction_token=request.vars.transaction_token,
+        transaction_token=json.dumps(token),
         order_total=request.vars.order_total,
         customer_name=request.vars.customer_name,
         user_email=request.vars.user_email,
-        #transaction_token=json.dumps(token),
         cart=request.vars.cart)
     return "ok"
 
