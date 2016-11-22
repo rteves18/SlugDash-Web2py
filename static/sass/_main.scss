@@ -1,9 +1,21 @@
 .colorful {
-  color: $clrHilight;
+  color: whitesmoke;
+}
+
+
+
+
+form {
+  background-color: white;
+  margin-top: 50px;
+  margin-left: 50px;
+
+
 }
 
 div.main_content {
   padding: 20px;
+  margin-right: 30%;
   button:focus {
     // Please no silly leftover border.
     border-color: white;
