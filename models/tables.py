@@ -12,6 +12,7 @@ import datetime
 # Add DATE_FORMAT... from tables.py of local_time branch here
 # Add my_validator.py to models/
 
+
 # Product table.
 db.define_table('product',
     Field('product_name'),
