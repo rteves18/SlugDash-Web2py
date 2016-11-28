@@ -55,8 +55,10 @@ def purchase():
     """Ajax function called when a customer orders and pays for the cart."""
     if not URL.verify(request, hmac_key=session.hmac_key):
         raise HTTP(500)
+    token = json.loads(request.vars.transaction_token)
+    amount = float(request.vars.order_total)
     # Creates the charge.
-    """ This is not working properly. Purchase does not go through"""
+    """ This is not working properly. Purchase does not go through
     import stripe
     # Your secret key.
     stripe.api_key = "sk_test_pZ4tD6Pq0VuUCkSyXJ6Feb2T"
@@ -73,7 +75,7 @@ def purchase():
         logger.info("The card has been declined.")
         logger.info("%r" % traceback.format_exc())
         return "nok"
-
+    """
     db.customer_order.insert(
         customer_info=request.vars.customer_info,
         transaction_token=json.dumps(token),
@@ -116,15 +118,13 @@ def view_orders():
     #db.customer_order.transaction_token.represent = lambda v, r: nicefy(v)
     #db.customer_order.cart.represent = lambda v, r: nicefy(v)
 
-    orders = db().select(db.customer_order.ALL)
+    orders = db().select(db.customer_order.ALL,
+                         orderby=~db.customer_order.order_date) # sort by order_date
 
     #db().select(db.customer_order.order_total)
     for order in orders:
         order.customer_info = json.loads(order.customer_info)
         order.cart = json.loads(order.cart)
-        print(order.customer_info)
-        print(order.cart)
-
 
     form = SQLFORM.grid(
         q,
