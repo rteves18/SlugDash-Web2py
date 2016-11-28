@@ -80,8 +80,8 @@ db.define_table(
     Field('first_name', length=128, default=''),
     Field('last_name', length=128, default=''),
     Field('email', length=128, default='', unique=True),
-    Field('password','password', length=512, readable=False, label='Password'),
-    Field('address', length=512, default=''),
+    Field('password', 'password', length=512, readable=False, label='Password'),
+    Field('address', length=512, default='', requires=IS_IN_SET(['potato', 'banana'])),
     Field('phone'),
     Field('registration_key', length=512, writable=False, readable=False, default=''),
     Field('reset_password_key', length=512, writable=False, readable = False, default=''),
@@ -93,7 +93,7 @@ custom_auth_table = db[auth.settings.table_user_name]
 
 custom_auth_table.first_name.requires = IS_NOT_EMPTY(error_message=auth.messages.is_empty)
 custom_auth_table.last_name.requires = IS_NOT_EMPTY(error_message=auth.messages.is_empty)
-custom_auth_table.password.requires = [IS_STRONG(), CRYPT()]
+#custom_auth_table.password.requires = [IS_STRONG(), CRYPT()]
 custom_auth_table.email.requires = [ IS_EMAIL(error_message=auth.messages.invalid_email), IS_NOT_IN_DB(db, custom_auth_table.email)]
 auth.settings.table_user = custom_auth_table
 # create all tables needed by auth if not custom tables
