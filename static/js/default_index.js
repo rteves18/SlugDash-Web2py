@@ -27,6 +27,13 @@ var app = function() {
         });
     };
 
+    self.get_orders = function () {
+        $.getJSON(order_url, function(data) {
+            self.vue.orders = data.orders;
+            enumerate(self.vue.prev_orders);
+        });
+    };
+
     // Change this to attach order to account
     // Right now it is being attached to the session
     self.store_cart = function() {
@@ -115,6 +122,10 @@ var app = function() {
                     self.send_data_to_server();
                 }
             });
+        }
+
+        if (page == 'order_page') {
+            self.get_orders();
         };
 
     };
@@ -160,6 +171,7 @@ var app = function() {
         data: {
             products: [],
             cart: [],
+            orders: [],
             product_search: '',
             cart_size: 0,
             cart_total: 0,
@@ -172,7 +184,8 @@ var app = function() {
             buy_product: self.buy_product,
             goto: self.goto,
             do_search: self.get_products,
-            pay: self.pay
+            pay: self.pay,
+            get_orders: self.get_orders
         }
 
     });

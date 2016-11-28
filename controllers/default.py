@@ -135,6 +135,29 @@ def view_orders():
     )
     return dict(form=form, orders=orders)
 
+@auth.requires_login()
+def order_history():
+    q = db.customer_order # This queries for all products.
+    orders = []
+    rows = db(db.orders.customer_user == auth.user.email).select(orderby=~db.orders.created_on)
+    #db().select(db.customer_order.order_total)
+    for row in rows:
+        cust_info = json.loads(row.customer_info)
+
+        o = dict(
+            shipping_name=cust_info['shipping_name'],
+            shipping_address_line1=cust_info['shipping_address_line1'],
+            shipping_address_city=cust_info['shipping_address_city'],
+            shipping_address_state=cust_info['shipping_address_state'],
+            shipping_address_zip=cust_info['shipping_address_zip'],
+            order_total=row.order_total,
+            order_date=row.order_date
+
+        )
+
+        orders.append(o)
+
+    return response.json(dict(orders=orders))
 
 def user():
     """

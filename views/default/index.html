@@ -5,7 +5,8 @@
 <script src="https://checkout.stripe.com/checkout.js"></script>
 <script>
     var products_url = "{{=URL('default', 'get_products')}}";
-    var purchase_url = "{{=URL('default', 'purchase', hmac_key=session.hmac_key)}}"
+    var purchase_url = "{{=URL('default', 'purchase', hmac_key=session.hmac_key)}}";
+    var order_url = "{{=URL('default', 'order_history')}}";
 </script>
 {{end}}
 
@@ -29,6 +30,17 @@
                     <button class="btn" v-on:click="goto('prod')"> Continue shopping </button>
                 </span>
             </div>
+            <div class="order_history_button quarter">
+                <span v-if=page!='order_page'>
+                    <button class="btn gray" v-on:click="goto('order_page')">
+                        <i class="fa fa-lg fa-clock-o"></i>
+                    </button>
+                </span>
+                <span v-if="page=='order_page'">
+                    <button class=btn" v-on:click="goto('prod')"> Continue shopping </button>
+                </span>
+            </div>
+
         </div>
 
         <div v-if="page=='prod'" id="products_list">
@@ -88,6 +100,30 @@
                 <button class="btn blue" v-on:click="pay()"><i class="fa fa-lg fa-credit-card"></i> Pay</button>
             </div>
         </div>
+        <div v-if="page=='order_page'" id="order_page">
+            <h2>Your Orders</h2>
+            <div v-if="orders.length == 0" class="container">
+                Oops, nothing to see!
+            </div>
+                    <div v-for="order in orders" class = container>
+                        <div class="shipping_info">
+                            To: ${order.shipping_name}
+                                ${order.shipping_address_line1}
+                                ${order.shipping_address_city}
+                                ${order.shipping_address_state}
+                                ${order.shipping_address_zip}
+
+                            <div class="order_date">Date: ${order.order_date} </div>
+                            <div class="order_total">Total:${order.order_total}</div>
+
+                        </div>
+
+                    </div>
+            </div>
+
+        </div>
+
+
 
     </div>
 
