@@ -8,10 +8,15 @@
 import traceback
 
 def index():
+    form = SQLFORM(db.driversched)
     """
     I am not doing anything here.  Look elsewhere.
     """
-    return dict()
+    return dict(form=form)
+
+def get_driverform():
+    driverform = SQLFORM(db.driversched)
+    return dict(form=driverform)
 
 def set_timezone():
     """Ajax call to set the timezone information for the session."""
@@ -137,6 +142,7 @@ def view_orders():
 
 
 def user():
+
     """
     exposes:
     http://..../[app]/default/user/login

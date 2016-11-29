@@ -6,11 +6,25 @@
 <script>
     var products_url = "{{=URL('default', 'get_products')}}";
     var purchase_url = "{{=URL('default', 'purchase', hmac_key=session.hmac_key)}}"
+    var driversched_url="{{=URL('default', 'driversched')}}"
 </script>
 {{end}}
 
+
 <div class="main_content">
+
     <div id="vue-div" style="display:none">
+    {{if auth.user:}}
+    {{if auth.user.role == 'Driver':}}
+        <button class="btn green" v-on:click= "goto('driversignup')">
+            <i class="fa fa-lg fa-car"> Driver Time Sign-Up</i>
+        </button>
+    {{pass}}
+    {{pass}}
+        <span v-if="page=='driversignup'">
+            Please select the times you are available to deliver:
+            {{=form}}
+        </span>
         <div class="control_bar container">
             <div class="search_div threequarters">
                 <span v-if="page=='prod'">

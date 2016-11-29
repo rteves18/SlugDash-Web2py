@@ -22,6 +22,13 @@ db.define_table('product',
 )
 db.product.id.readable = db.product.id.writable = False
 
+#Table to track Driver avalibility scheduling
+db.define_table('driversched',
+    Field('driver', default=auth.user_id, readable=False, writable=False), #saves user_id with times
+    Field('firsttime','boolean',label='9:30'),
+    Field('secondtime', 'boolean', label='10:30'),
+    Field('thirdtime', 'boolean', label='11:30')
+   )
 # Customer order table
 db.define_table('customer_order',
                 Field('order_date', default=datetime.datetime.utcnow()),

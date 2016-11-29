@@ -84,9 +84,11 @@ db.define_table(
                                         'College Eight Circle','Kresge College','West Remote',
                                                      'Merrill College', 'OPERS'])),
     Field('phone'),
+    Field('role', label='Driver or Diner?', length=512, requires=IS_IN_SET(['Driver','Diner'])),
     Field('registration_key', length=512, writable=False, readable=False, default=''),
     Field('reset_password_key', length=512, writable=False, readable = False, default=''),
     Field('registration_id', length=512, writable=False, readable=False, default=''),
+
 )
 
 #validators
@@ -94,7 +96,7 @@ custom_auth_table = db[auth.settings.table_user_name]
 
 custom_auth_table.first_name.requires = IS_NOT_EMPTY(error_message=auth.messages.is_empty)
 custom_auth_table.last_name.requires = IS_NOT_EMPTY(error_message=auth.messages.is_empty)
-custom_auth_table.password.requires = [IS_STRONG(), CRYPT()]
+#custom_auth_table.password.requires = [IS_STRONG(), CRYPT()]  ***fuck this line for the sake of easy test accounts
 custom_auth_table.email.requires = [ IS_EMAIL(error_message=auth.messages.invalid_email), IS_NOT_IN_DB(db, custom_auth_table.email)]
 # create all tables needed by auth if not custom tables
 auth.define_tables(username=False, signature=False)
