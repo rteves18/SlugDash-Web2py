@@ -88,7 +88,7 @@ def purchase():
 
 # Normally here we would check that the user is an admin, and do programmatic
 # APIs to add and remove products to the inventory, etc.
-@auth.requires_login()
+@auth.requires_membership('super_admin')
 def product_management():
     q = db.product # This queries for all products.
     form = SQLFORM.grid(
@@ -111,7 +111,8 @@ Need to work on:
     + Create group authentication to prevent certain users from accessing this page
     + Maybe work on improving the UI
 """
-@auth.requires_login()
+@auth.requires_membership('driver')
+#@auth.requires(auth.has_membership(group_id='driver'))
 def view_orders():
     q = db.customer_order # This queries for all products.
     #db.customer_order.customer_info.represent = lambda v, r: nicefy(v)

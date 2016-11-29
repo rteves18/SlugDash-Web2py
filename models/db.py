@@ -73,7 +73,26 @@ my_tz_nice_detector_widget = lambda field, value : tz_nice_detector_widget(field
 auth.settings.extra_fields['auth_user']= [
   Field('user_timezone', 'string', widget=my_tz_nice_detector_widget),
 ]
+#Custom table specifically for SlugDash, adds name, email, password, address, phone number
+db.define_table(
+    auth.settings.table_user_name,
+    Field('first_name', length=128, default=''),
+    Field('last_name', length=128, default=''),
+    Field('email', length=128, default='', unique=True),
+    Field('password', 'password', length=512, readable=False, label='Password'),
+    Field('address', length=512, default='', requires=IS_IN_SET(['potato', 'banana'])),
+    Field('phone'),
+    Field('registration_key', length=512, writable=False, readable=False, default=''),
+    Field('reset_password_key', length=512, writable=False, readable = False, default=''),
+    Field('registration_id', length=512, writable=False, readable=False, default=''),
+)
 """
+auth.settings.extra_fields['auth_user'] = [
+    Field('address', length=512, default='', requires=IS_IN_SET(['Stevenson/Cowell Circle', 'Merill Circle', 'Crown Circle',
+                                                                 'Nine & Ten Circle', 'Porter Circle'])),
+    Field('phone', length=10),
+    Field('user_type', requires=IS_IN_SET(['User','Driver'])),
+]
 
 # create all tables needed by auth if not custom tables
 auth.define_tables(username=False, signature=False)
