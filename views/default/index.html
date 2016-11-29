@@ -32,7 +32,7 @@
             </div>
 
             <!-- Display buttons on top right corner -->
-            <div class="shopping_button quarter">
+            <div class="shopping_button quarter" v-if="logged_in">
 
                 <!--Display Order History Page on click-->
                 <span v-if="page=='prod' || page=='cart'">
@@ -88,7 +88,6 @@
                             <th>${item['product_name']}</th>
                             <th>${item['desired_quantity']}</th>
                             <th>${(item['price']*item['desired_quantity']).toFixed(2)}
-                                <br>${item['price']*item['desired_quantity']}
                             </th>
                             <th>${order.delivery_location}</th>
                             <th><img v-bind:src="item['image_url']" style="max-width: 30%; max-height: 30%"/></th>
@@ -112,8 +111,15 @@
                         <span class="buy_buttons">
                             <button class="btn" v-on:click="inc_desired_quantity(product._idx, 1)"><i class="fa fa-plus"></i></button>
                             <span class="desired_quantity">${product.desired_quantity}</span>
-                            <button class="btn" v-on:click="inc_desired_quantity(product._idx, -1)"><i class="fa fa-minus"></i></button>
-                            <button class="btn red" v-on:click="buy_product(product._idx)"><i class="fa fa-lg fa-shopping-cart"></i> Buy</button>
+
+                            <!--Buy button-->
+                            <button class="btn" v-on:click="inc_desired_quantity(product._idx, -1)">
+                                <i class="fa fa-minus"></i>
+                            </button>
+                            <button v-if="logged_in" class="btn btn-warning" v-on:click="buy_product(product._idx)"><i class="fa fa-lg fa-shopping-cart"></i> Buy</button>
+                            <button v-if="!logged_in" class="btn btn-warning disabled">
+                                <i class="fa fa-lg fa-shopping-cart"></i> Buy
+                            </button>
                         </span>
                     </div>
                     <div class="product_description">
@@ -126,8 +132,8 @@
         </div>
 
         <!--Cart page content-->
-        <div v-if="page=='cart'" id="cart_list">
-            <div v-if="cart.length == 0" class="container">
+        <div v-if="page=='cart'" id="cart_list" class="container">
+            <div v-if="cart.length == 0">
                 <div class="cart_empty_msg">
                     Your cart is empty
                 </div>
@@ -152,10 +158,12 @@
                     </div>
                 </div>
             </div>
+
             <div v-if="cart.length > 0" class="total_price">
                 Your total price: $ ${(cart_total).toFixed(2)}
                 <button class="btn blue" v-on:click="goto('checkout')"><i class="fa fa-lg fa-credit-card"></i> Pay</button>
             </div>
+
         </div>
 
 

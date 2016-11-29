@@ -24,6 +24,7 @@ var app = function() {
         // Gets new products in response to a query, or to an initial page load.
         $.getJSON(products_url, $.param({q: self.vue.product_search}), function(data) {
             self.vue.products = data.products;
+            self.vue.logged_in = data.logged_in;
             enumerate(self.vue.products);
         });
     };
@@ -169,6 +170,7 @@ var app = function() {
             cart: [],
             orders: [],
             delivery_location: 'Select a location',
+            logged_in: false, //Check if user is logged in
             product_search: '',
             cart_size: 0,
             cart_total: 0,

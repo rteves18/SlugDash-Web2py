@@ -63,7 +63,8 @@ def get_products():
     for p in products:
         p['desired_quantity'] = min(1, p['quantity'])
         p['cart_quantity'] = 0
-    return response.json(dict(products=products, ))
+    logged_in = auth.user_id is not None
+    return response.json(dict(products=products, logged_in=logged_in))
 
 
 # Fetch orders from server
@@ -93,8 +94,8 @@ def purchase():
     """Ajax function called when a customer orders and pays for the cart."""
     if not URL.verify(request, hmac_key=session.hmac_key):
         raise HTTP(500)
-    token = json.loads(request.vars.transaction_token)
-    amount = float(request.vars.order_total)
+    #token = json.loads(request.vars.transaction_token)
+    #amount = float(request.vars.order_total)
     # Creates the charge.
     """ This is not working properly. Purchase does not go through
     import stripe
