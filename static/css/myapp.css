@@ -55,3 +55,15 @@ div.main_content .page_title {
 div.main_content .total_price {
   font-size: 150%;
 }
+
+/* Table layout */
+table {
+  font-family: arial, sans-serif;
+  border-collapse: collapse;
+  width: 100%;
+  border: 1px solid #dddddd;
+  text-align: center;
+  margin-bottom: 30px;
+  border-left: 0px solid #dddddd;
+  border-right: 0px solid #dddddd;
+}

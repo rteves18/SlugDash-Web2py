@@ -87,12 +87,13 @@ db.define_table(
     Field('registration_id', length=512, writable=False, readable=False, default=''),
 )
 """
+
+# extra fields in table
 auth.settings.extra_fields['auth_user'] = [
-    Field('address', length=512, default='', requires=IS_IN_SET(['Stevenson/Cowell Circle', 'Merill Circle', 'Crown Circle',
-                                                                 'Nine & Ten Circle', 'Porter Circle'])),
-    Field('phone', length=10),
-    Field('user_type', requires=IS_IN_SET(['User','Driver'])),
-]
+    Field('address', length=512, default='', requires=IS_IN_SET(['Stevenson/Cowell Circle', 'Merill Circle',
+                                                                 'Crown Circle', 'Nine & Ten Circle',
+                                                                 'Porter Circle'])),
+    ]
 
 # create all tables needed by auth if not custom tables
 auth.define_tables(username=False, signature=False)

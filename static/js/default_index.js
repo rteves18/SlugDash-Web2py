@@ -19,6 +19,7 @@ var app = function() {
         return v.map(function(e) {e._idx = k++;});
     };
 
+    // Retrieve product list
     self.get_products = function () {
         // Gets new products in response to a query, or to an initial page load.
         $.getJSON(products_url, $.param({q: self.vue.product_search}), function(data) {
@@ -27,8 +28,14 @@ var app = function() {
         });
     };
 
-    // Change this to attach order to account
-    // Right now it is being attached to the session
+    // Retrieve order list
+    self.get_orders = function () {
+        $.getJSON(orders_url, $.param({q: self.vue.product_search}), function(data) {
+            self.vue.orders = data.orders;
+            enumerate(self.vue.orders);
+        });
+    };
+
     self.store_cart = function() {
         localStorage.cart = JSON.stringify(self.vue.cart);
     };
@@ -97,15 +104,16 @@ var app = function() {
         self.store_cart();
     };
 
-    self.customer_info = {}
+    //self.customer_info = {}
 
-    // This can be done statically by initializing in the static/ directory
     self.goto = function (page) {
+        self.get_orders();
         self.vue.page = page;
-        if (page == 'cart') {
+
+        /*if (page == 'cart') {
             // prepares the form.
             self.stripe_instance = StripeCheckout.configure({
-                key: 'pk_test_5wIP2WHoBbgZr9ICMpb2kYhV',    //put your own publishable key here
+                key: 'pk_test_CeE2VVxAs3MWCUDMQpWe8KcX',    //put your own publishable key here
                 image: 'https://stripe.com/img/documentation/checkout/marketplace.png',
                 locale: 'auto',
                 token: function(token, args) {
@@ -115,40 +123,39 @@ var app = function() {
                     self.send_data_to_server();
                 }
             });
-        };
+        };*/
 
     };
 
-    // This function is called when the user hits pay button
-    // It will display Stripe's pop-up checkout box
     self.pay = function () {
-        self.stripe_instance.open({
-            name: "Slug Dash Checkout",
-            description: "Enter your info",
+        /*self.stripe_instance.open({
+            name: "Your nice cart",
+            description: "Buy cart content",
             billingAddress: true,
             shippingAddress: true,
             amount: Math.round(self.vue.cart_total * 100),
-        });
+        });*/
+        self.send_data_to_server();
     };
 
-    // Write order to database and reset cart
     self.send_data_to_server = function () {
         console.log("Payment for:", self.customer_info);
         // Calls the server.
         $.post(purchase_url,
             {
-                customer_info: JSON.stringify(self.customer_info),
-                transaction_token: JSON.stringify(self.stripe_token),
-                order_total: self.vue.cart_total, // changed var amount to order_total
+                //customer_info: JSON.stringify(self.customer_info),
+                //transaction_token: JSON.stringify(self.stripe_token),
+                delivery_location: self.vue.delivery_location,
+                amount: self.vue.cart_total,
                 cart: JSON.stringify(self.vue.cart),
             },
             function (data) {
-                // Order successfully placed, reset cart
+                // The order was successful.
                 self.vue.cart = [];
                 self.update_cart();
                 self.store_cart();
                 self.goto('prod');
-                $.web2py.flash("Thank you for your purchase"); // Not working - not flashing yet
+                $.web2py.flash("Thank you for your purchase");
             }
         );
     };
@@ -160,13 +167,17 @@ var app = function() {
         data: {
             products: [],
             cart: [],
+            orders: [],
+            delivery_location: 'Select a location',
             product_search: '',
             cart_size: 0,
             cart_total: 0,
-            page: 'prod'
+            page: 'prod',
+            is_same_user: false
         },
         methods: {
             get_products: self.get_products,
+            get_orders: self.get_orders,
             inc_desired_quantity: self.inc_desired_quantity,
             inc_cart_quantity: self.inc_cart_quantity,
             buy_product: self.buy_product,
@@ -177,6 +188,7 @@ var app = function() {
 
     });
 
+    self.get_orders();
     self.get_products();
     self.read_cart();
     $("#vue-div").show();
