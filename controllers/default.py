@@ -32,8 +32,9 @@ def set_timezone():
     else:
         logger.warning("Invalid timezone received: %r" % tz_name)
 
+""" Old code to get product from local
 def get_products():
-    """Gets the list of products, possibly in response to a query."""
+    #Gets the list of products, possibly in response to a query.
     t = request.vars.q.strip()
     if request.vars.q:
         q = ((db.product.name.contains(t)) |
@@ -42,6 +43,7 @@ def get_products():
         q = db.product.id > 0
     products = db(q).select(db.product.ALL)
     # Fixes some fields, to make it easy on the client side.
+    # Add fields to products here.
     for p in products:
         p.image_url = URL('download', p.image)
         p.desired_quantity = min(1, p.quantity)
@@ -49,8 +51,44 @@ def get_products():
     return response.json(dict(
         products=products,
     ))
+"""
 
 
+# Fetch products from server
+def get_products():
+    import requests
+    r = requests.get('http://luca-teaching.appspot.com/get_products')
+    result = r.json()
+    products = result['products']
+    for p in products:
+        p['desired_quantity'] = min(1, p['quantity'])
+        p['cart_quantity'] = 0
+    return response.json(dict(products=products, ))
+
+
+# Fetch orders from server
+@auth.requires_login()
+def get_orders():
+    orders = db(db.customer_order.user_email == auth.user.email).select(db.customer_order.ALL,
+                         orderby=~db.customer_order.order_date) # sort by order_date
+    for order in orders:
+        #order.customer_info = json.loads(order.customer_info)
+        order.cart = json.loads(order.cart)
+
+    return response.json(dict(orders=orders, ))
+
+
+# Returns a string corresponding to the user
+#   first and last names, given the user email.
+def get_user_name_from_email(email):
+    u = db(db.auth_user.email == email).select().first()
+    if u is None:
+        return 'None'
+    else:
+        return ' '.join([u.first_name, u.last_name])
+
+
+@auth.requires_login()
 def purchase():
     """Ajax function called when a customer orders and pays for the cart."""
     if not URL.verify(request, hmac_key=session.hmac_key):
@@ -78,17 +116,19 @@ def purchase():
     """
     db.customer_order.insert(
         customer_info=request.vars.customer_info,
-        transaction_token=json.dumps(token),
-        order_total=request.vars.order_total,
-        customer_name=request.vars.customer_name,
-        user_email=request.vars.user_email,
+        delivery_location=request.vars.delivery_location,
+        #transaction_token=request.vars.transaction_token,
+        #order_total=request.vars.order_total,
+        #customer_name=request.vars.customer_name,
+        #user_email=request.vars.user_email,
+        #transaction_token=json.dumps(token),
         cart=request.vars.cart)
     return "ok"
 
 
 # Normally here we would check that the user is an admin, and do programmatic
 # APIs to add and remove products to the inventory, etc.
-@auth.requires_login()
+#@auth.requires_membership('super_admin')
 def product_management():
     q = db.product # This queries for all products.
     form = SQLFORM.grid(
@@ -97,8 +137,6 @@ def product_management():
         create=True,
         user_signature=True,
         deletable=True,
-        fields=[db.product.product_name, db.product.quantity, db.product.price,
-                db.product.image],
         details=True,
     )
     return dict(form=form)
@@ -111,19 +149,20 @@ Need to work on:
     + Create group authentication to prevent certain users from accessing this page
     + Maybe work on improving the UI
 """
-@auth.requires_login()
+#@auth.requires_membership('super_admin')
+#@auth.requires(auth.has_membership(group_id='driver'))
 def view_orders():
     q = db.customer_order # This queries for all products.
     #db.customer_order.customer_info.represent = lambda v, r: nicefy(v)
     #db.customer_order.transaction_token.represent = lambda v, r: nicefy(v)
-    #db.customer_order.cart.represent = lambda v, r: nicefy(v)
+    db.customer_order.cart.represent = lambda v, r: nicefy(v)
 
     orders = db().select(db.customer_order.ALL,
                          orderby=~db.customer_order.order_date) # sort by order_date
 
     #db().select(db.customer_order.order_total)
     for order in orders:
-        order.customer_info = json.loads(order.customer_info)
+        #order.customer_info = json.loads(order.customer_info)
         order.cart = json.loads(order.cart)
 
     form = SQLFORM.grid(

@@ -6,31 +6,99 @@
 <script>
     var products_url = "{{=URL('default', 'get_products')}}";
     var purchase_url = "{{=URL('default', 'purchase', hmac_key=session.hmac_key)}}"
+    var orders_url = "{{=URL('default', 'get_orders')}}";
 </script>
 {{end}}
 
 <div class="main_content">
+
     <div id="vue-div" style="display:none">
         <div class="control_bar container">
             <div class="search_div threequarters">
+                <!--Display Search Bar
                 <span v-if="page=='prod'">
                     <input class="search_input" v-model="product_search"/>
                     <button class="btn" v-on:click="do_search"><i class="fa fa-search fa-lg"></i></button>
                 </span>
-                <span v-if="page=='cart'" class="page_title"><i class="fa fa-shopping-cart"></i> Your Shopping Cart</span>
+                -->
+
+                <span v-if="page=='cart'" class="page_title"><i class="fa fa-shopping-cart"></i>
+                    Your Shopping Cart
+                </span>
+
+                <span v-if="page=='order_list'" class="page_title"><i class="fa fa-clock-o"></i>
+                    Your Order History
+                </span>
             </div>
+
+            <!-- Display buttons on top right corner -->
             <div class="shopping_button quarter">
-                <span v-if="page=='prod'">
+
+                <!--Display Order History Page on click-->
+                <span v-if="page=='prod' || page=='cart'">
+                    <button v-on:click="goto('order_list')">
+                        <i class="fa fa-clock-o"></i> View Orders
+                    </button>
+                </span>
+
+                <!--Display Cart Page on click-->
+                <span v-if="page=='prod' || page=='checkout'">
                     <button class="btn orange" v-on:click="goto('cart')">
                         <i class="fa fa-lg fa-shopping-cart"></i> ${cart_size}
                     </button>
                 </span>
-                <span v-if="page=='cart'">
+
+                <!--Display Home page on click-->
+                <span v-if="page=='cart' || page=='order_list' || page=='checkout'">
                     <button class="btn" v-on:click="goto('prod')"> Continue shopping </button>
                 </span>
+
             </div>
         </div>
 
+        <!--Order History page content-->
+        <div v-if="page=='order_list'" id="order_list">
+            <div v-if="orders.length == 0" class="container">
+                <div class="cart_empty_msg">
+                    You have no recent orders
+                </div>
+            </div>
+            <div v-for="order in orders" class="container">
+                <div v-for="item in order.cart">
+                    <table>
+                        <tr>
+                            <th>Order Time</th>
+                            <!--<th>Name</th>
+                            <th>Shipping Address</th>-->
+                            <th>Purchased Product</th>
+                            <th>Quantity</th>
+                            <th>Order Total</th>
+                            <th>Delivery Location</th>
+                            <th>Product Image</th>
+                        </tr>
+                        <tr>
+                            <th>${order.order_date}</th>
+                            <!--<th>${order.customer_info['shipping_name']}</th>
+                            <th>
+                                ${order.customer_info['shipping_address_line1']},
+                                ${order.customer_info['shipping_address_city']},
+                                ${order.customer_info['shipping_address_state']},
+                                ${order.customer_info['shipping_address_zip']}
+                            </th>-->
+                            <th>${item['product_name']}</th>
+                            <th>${item['desired_quantity']}</th>
+                            <th>${(item['price']*item['desired_quantity']).toFixed(2)}
+                                <br>${item['price']*item['desired_quantity']}
+                            </th>
+                            <th>${order.delivery_location}</th>
+                            <th><img v-bind:src="item['image_url']" style="max-width: 30%; max-height: 30%"/></th>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <!--Product page content-->
         <div v-if="page=='prod'" id="products_list">
             <div v-for="product in products" class="container">
                 <div class="third prod_image">
@@ -57,6 +125,7 @@
             </div>
         </div>
 
+        <!--Cart page content-->
         <div v-if="page=='cart'" id="cart_list">
             <div v-if="cart.length == 0" class="container">
                 <div class="cart_empty_msg">
@@ -84,9 +153,30 @@
                 </div>
             </div>
             <div v-if="cart.length > 0" class="total_price">
-                Your total price: $ ${cart_total}
-                <button class="btn blue" v-on:click="pay()"><i class="fa fa-lg fa-credit-card"></i> Pay</button>
+                Your total price: $ ${(cart_total).toFixed(2)}
+                <button class="btn blue" v-on:click="goto('checkout')"><i class="fa fa-lg fa-credit-card"></i> Pay</button>
             </div>
+        </div>
+
+
+
+        <!--Checkout page content-->
+        <div v-if="page=='checkout'" id="checkout">
+            <h5>Select a delivery location from the dropdown menu</h5>
+            <!--ASK HOW TO DISPLAY A DEFAULT VALUE-->
+            <select v-model="delivery_location">
+                <option disabled selected hidden> Select a location </option>
+                <option>Porter Circle</option>
+                <option>Science Hill Circle</option>
+                <option>Stevenson Circle</option>
+                <option>Cowell Circle</option>
+                <option>College 8/Rachel Carson College Circle</option>
+            </select>
+            <br/><br>
+            <button class="btn blue" v-on:click="pay()">
+                <i class="fa fa-lg fa-check-circle-o"></i> Confirm Purchase
+            </button>
+
         </div>
 
     </div>

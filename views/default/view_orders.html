@@ -30,22 +30,15 @@ tr:nth-child(even) {
 		<tr>
             <th>Order Time</th>
 			<th>Name</th>
-			<th>Shipping Address</th>
             <th>Purchased Item</th>
             <th>Quantity</th>
             <th>Order Total</th>
-            <th>Order Breakdown</th>
+            <th>Delivery Location</th>
 		</tr>
 		{{for o in orders:}}
 		<tr>
             <th>{{=o.order_date}}</th>
-			<th>{{=o.customer_info['shipping_name']}}</th>
-			<th>
-				{{=o.customer_info['shipping_address_line1']}},
-				{{=o.customer_info['shipping_address_city']}},
-				{{=o.customer_info['shipping_address_state']}},
-				{{=o.customer_info['shipping_address_zip']}}
-			</th>
+			<th></th>
             <th>
                 {{for item in o.cart:}}
                     {{=item['product_name']}}<br>
@@ -57,9 +50,7 @@ tr:nth-child(even) {
                 {{pass}}
             </th>
             <th>${{=o.order_total}}</th>
-            <th>{{for item in o.cart:}}
-                    <span>{{=item['price']*item['cart_quantity']}}</span><br>
-                {{pass}}
+            <th>{{=o.delivery_location}}
             </th>
 		</tr>
 		{{pass}}
