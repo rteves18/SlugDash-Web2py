@@ -158,9 +158,22 @@ var app = function() {
                 self.update_cart();
                 self.store_cart();
                 self.goto('prod');
-                $.web2py.flash("Thank you for your purchase");
+                //$.web2py.flash("Thank you for your purchase");
+                self.flash_error('purchased');
             }
         );
+    };
+
+    self.flash_error = function (error_type) {
+        console.log(typeof error_type);
+        switch (error_type){
+            case 'purchased':
+                $.web2py.flash("Thank you for your purchase!");
+                break;
+            case 'not_logged_in':
+                $.web2py.flash("Please log in to your account to continue");
+                break;
+        }
     };
 
     self.vue = new Vue({
@@ -177,6 +190,7 @@ var app = function() {
             cart_size: 0,
             cart_total: 0,
             page: 'prod',
+            error_type: '',
             is_same_user: false
         },
         methods: {
@@ -187,7 +201,8 @@ var app = function() {
             buy_product: self.buy_product,
             goto: self.goto,
             do_search: self.get_products,
-            pay: self.pay
+            pay: self.pay,
+            flash_error: self.flash_error
         }
 
     });
