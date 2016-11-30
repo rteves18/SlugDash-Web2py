@@ -54,6 +54,7 @@ div.main_content .page_title {
 /* line 42, ../sass/_main.scss */
 div.main_content .total_price {
   font-size: 150%;
+  font-weight: bold;
 }
 
 /* Table layout */

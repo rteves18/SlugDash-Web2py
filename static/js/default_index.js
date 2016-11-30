@@ -137,17 +137,19 @@ var app = function() {
             amount: Math.round(self.vue.cart_total * 100),
         });*/
         self.send_data_to_server();
+        self.goto('prod');
     };
 
     self.send_data_to_server = function () {
         console.log("Payment for:", self.customer_info);
+        console.log(self.vue.cart_total),
         // Calls the server.
         $.post(purchase_url,
             {
                 //customer_info: JSON.stringify(self.customer_info),
                 //transaction_token: JSON.stringify(self.stripe_token),
                 delivery_location: self.vue.delivery_location,
-                amount: self.vue.cart_total,
+                order_total: self.vue.cart_total,
                 cart: JSON.stringify(self.vue.cart),
             },
             function (data) {

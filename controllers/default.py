@@ -119,8 +119,8 @@ def purchase():
         customer_info=request.vars.customer_info,
         delivery_location=request.vars.delivery_location,
         #transaction_token=request.vars.transaction_token,
-        #order_total=request.vars.order_total,
-        #customer_name=request.vars.customer_name,
+        order_total=request.vars.order_total,
+        customer_name=get_user_name_from_email(auth.user.email),
         #user_email=request.vars.user_email,
         #transaction_token=json.dumps(token),
         cart=request.vars.cart)
@@ -173,6 +173,7 @@ def view_orders():
         user_signature=True,
         deletable=True,
         details=True,
+        orderby=~db.customer_order.order_date,
     )
     return dict(form=form, orders=orders)
 
