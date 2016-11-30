@@ -116,7 +116,7 @@ def purchase():
         return "nok"
     """
     db.customer_order.insert(
-        customer_info=request.vars.customer_info,
+        #customer_info=request.vars.customer_info,
         delivery_location=request.vars.delivery_location,
         #transaction_token=request.vars.transaction_token,
         order_total=request.vars.order_total,
