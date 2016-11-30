@@ -30,8 +30,8 @@ db.define_table('customer_order',
                 Field('user_email', default=auth.user.email if auth.user_id else None),
                 Field('customer_name', 'text'),
                 Field('order_total', 'float'),
-                Field('customer_info', 'blob'),
-                Field('transaction_token', 'blob'),
+                #Field('customer_info', 'blob'),
+                #Field('transaction_token', 'blob'),
                 Field('cart', 'blob'),
                 )
 

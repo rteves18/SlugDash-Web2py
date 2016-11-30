@@ -26,6 +26,7 @@ tr:nth-child(even) {
 <body>
     <br>
     <h2 align="center">Orders Placed</h2>
+
 	<table>
 		<tr>
             <th>Order Time</th>
@@ -38,7 +39,7 @@ tr:nth-child(even) {
 		{{for o in orders:}}
 		<tr>
             <th>{{=o.order_date}}</th>
-			<th></th>
+			<th>{{=o.customer_name}}</th>
             <th>
                 {{for item in o.cart:}}
                     {{=item['product_name']}}<br>
@@ -52,6 +53,7 @@ tr:nth-child(even) {
             <th>${{=o.order_total}}</th>
             <th>{{=o.delivery_location}}
             </th>
+
 		</tr>
 		{{pass}}
 	</table>
