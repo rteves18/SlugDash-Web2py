@@ -26,7 +26,7 @@ db.product.id.readable = db.product.id.writable = False
 db.define_table('customer_order',
                 Field('user_email', default=auth.user.email if auth.user_id else None),
                 Field('delivery_location', default=auth.user.address if auth.user_id else None),
-                Field('order_date', default=datetime.datetime.utcnow()),
+                Field('order_date', default=datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')),
                 Field('user_email', default=auth.user.email if auth.user_id else None),
                 Field('customer_name', 'text'),
                 Field('order_total', 'float'),
