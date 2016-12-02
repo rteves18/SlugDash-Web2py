@@ -1,3 +1,8 @@
+
+html {
+  background-color: red;
+}
+
 /* line 1, ../sass/_main.scss */
 .colorful {
   color: #bb8833;
@@ -66,4 +71,24 @@ table {
   margin-bottom: 30px;
   border-left: 0px solid #dddddd;
   border-right: 0px solid #dddddd;
+}
+
+.post{
+	margin-bottom: 80px;
+	text-align: center;
+}
+
+span.icon{
+	display: block;
+	font-size: 200px;
+	color: #111;
+	margin: 30px 0px;
+}
+
+.hidden{
+	opacity: 0;
+}
+
+.visible{
+	opacity: 1;
 }

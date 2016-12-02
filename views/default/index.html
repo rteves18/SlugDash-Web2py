@@ -3,6 +3,8 @@
 {{block head}}
 <script src="{{=URL('static', 'js/vue.js')}}"></script>
 <script src="https://checkout.stripe.com/checkout.js"></script>
+<link href="{{=URL('static','css/animate.css')}}" rel="stylesheet" type="text/css"/>
+<script src="{{=URL('static','js/viewportchecker.js')}}"></script>
 <script>
     var products_url = "{{=URL('default', 'get_products')}}";
     var purchase_url = "{{=URL('default', 'purchase', hmac_key=session.hmac_key)}}"
@@ -10,9 +12,9 @@
 </script>
 {{end}}
 
-  <div class="container-fluid">
+  <div class="container-fluid center-block">
    <div class="row">
-	<img src="{{=URL('static','images/brn-test.jpg')}}" class="img-responsive">
+	<img src="{{=URL('static','images/header-1.jpg')}}" class="img-responsive">
    </div>
 </div>
 
@@ -104,6 +106,21 @@
         </div>
 
         <!--Product page content-->
+
+        <div class="container-fluid center-block">
+   <div class="row">
+	<img src="{{=URL('static','images/safeway.jpg')}}" class="img-responsive">
+       <img src="{{=URL('static','images/ferrells.jpg')}}" class="img-responsive">
+       <img src="{{=URL('static','images/711.jpg')}}" class="img-responsive">
+   </div>
+</div>
+
+        <div class="post">
+		<span class="fa fa-beer"> </span>
+		<h2> Lorem ipsum dolor sit amet, consetetur sadipscing elitr. </h2>
+		<p>  At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, At accusam aliquyam diam diam dolore dolores duo eirmod eos erat, et nonumy sed tempor et et invidunt justo labore Stet clita ea et gubergren, kasd magna no rebum. sanctus sea sed takimata ut vero voluptua. est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat.</p>
+	</div>
+
         <div v-if="page=='prod'" id="products_list">
             <div v-for="product in products" class="container">
                 <div class="third prod_image">
@@ -196,5 +213,14 @@
     </div>
 
 </div>
+
+    <script type="text/javascript">
+        jQuery(document).ready(function() {
+        jQuery('.post').addClass("hide_me").viewportChecker({
+	    classToAdd: 'visible animated fadeInDown', // Class to add to the elements when they are visible
+	    offset: 100
+	   });
+    });
+    </script>
 
 <script src="{{=URL('static', 'js/default_index.js')}}"></script>

@@ -1,4 +1,5 @@
-header a {color: white; font-size:1.1em}
+header a {color: #ce4f0c; font-size:1.1em}
+html{background-color: #0074d9}
 main {min-height: 70vh}
 table {color: black}
 .form-group {padding-bottom: 10px !important;}
@@ -203,3 +204,7 @@ li.w2p_grid_breadcrumb_elem {
 .web2py_console .form-control {width: 20% !important; display: inline;}
 .web2py_console #w2p_keywords {width: 50% !important;}
 .web2py_search_actions a, .web2py_console input[type=submit], .web2py_console input[type=button], .web2py_console button { padding: 6px 12px; }
+
+.img-responsive {
+    margin: 0 auto;
+}
