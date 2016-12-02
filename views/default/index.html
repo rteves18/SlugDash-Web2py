@@ -5,6 +5,8 @@
 <script src="https://checkout.stripe.com/checkout.js"></script>
 <link href="{{=URL('static','css/animate.css')}}" rel="stylesheet" type="text/css"/>
 <script src="{{=URL('static','js/viewportchecker.js')}}"></script>
+<link href="{{=URL('static','css/component.css')}}" rel="stylesheet" type="text/css"/>
+<script src="{{=URL('static','js/modernizr.custom.js')}}"></script>
 <script>
     var products_url = "{{=URL('default', 'get_products')}}";
     var purchase_url = "{{=URL('default', 'purchase', hmac_key=session.hmac_key)}}"
@@ -105,8 +107,48 @@
             </div>
         </div>
 
+        <div class="post">
+		<span class="icon fa fa-cutlery"> </span>
+		<h2> Welcome to SlugDash </h2>
+		<p class="center">  UC Santa Cruz's on campus delivery solution!</p>
+	</div>
+
         <!--Product page content-->
 
+        <ul class="grid cs-style-2">
+				<li>
+					<figure>
+						<img src="{{=URL('static','images/safeway.jpg')}}" alt="img02">
+						<figcaption>
+							<h3>Safeway</h3>
+                            <span>Mission Street</span>
+							<button href="{{=URL('views','default/safeway.html')}}">Select Items</button>
+						</figcaption>
+					</figure>
+				</li>
+
+            <li>
+					<figure>
+						<img src="{{=URL('static','images/ferrells.jpg')}}" alt="img02">
+						<figcaption>
+							<h3>Ferrells</h3>
+                            <span>Mission Street</span>
+							<button href="{{=URL('views','default/safeway.html')}}">Select Items</button>
+						</figcaption>
+					</figure>
+				</li>
+
+            <li>
+					<figure>
+						<img src="{{=URL('static','images/711.jpg')}}" alt="img02">
+						<figcaption>
+							<h3>711</h3>
+                            <span>Bay</span>
+							<button href="{{=URL('views','default/safeway.html')}}">Select Items</button>
+						</figcaption>
+					</figure>
+				</li>
+        </ul>
         <div class="container-fluid center-block">
    <div class="row">
 	<img src="{{=URL('static','images/safeway.jpg')}}" class="img-responsive">
@@ -114,12 +156,6 @@
        <img src="{{=URL('static','images/711.jpg')}}" class="img-responsive">
    </div>
 </div>
-
-        <div class="post">
-		<span class="fa fa-beer"> </span>
-		<h2> Lorem ipsum dolor sit amet, consetetur sadipscing elitr. </h2>
-		<p>  At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, At accusam aliquyam diam diam dolore dolores duo eirmod eos erat, et nonumy sed tempor et et invidunt justo labore Stet clita ea et gubergren, kasd magna no rebum. sanctus sea sed takimata ut vero voluptua. est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat.</p>
-	</div>
 
         <div v-if="page=='prod'" id="products_list">
             <div v-for="product in products" class="container">
@@ -213,7 +249,7 @@
     </div>
 
 </div>
-
+<script src="{{=URL('static','toucheffects.js')}}"></script>
     <script type="text/javascript">
         jQuery(document).ready(function() {
         jQuery('.post').addClass("hide_me").viewportChecker({
