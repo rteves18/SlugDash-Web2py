@@ -14,11 +14,11 @@ import datetime
 
 # Product table.
 db.define_table('product',
-    Field('product_name'),
-    Field('quantity', 'integer'),
-    Field('price', 'float'),
-    Field('image', 'upload'),
-    Field('description', 'text'),
+                Field('product_name'),
+                Field('quantity', 'integer'),
+                Field('price', 'float'),
+                Field('image', 'upload'),
+                Field('description', 'text'),
 )
 db.product.id.readable = db.product.id.writable = False
 
@@ -27,12 +27,21 @@ db.define_table('customer_order',
                 Field('user_email', default=auth.user.email if auth.user_id else None),
                 Field('delivery_location', default=auth.user.address if auth.user_id else None),
                 Field('order_date', default=datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')),
-                Field('user_email', default=auth.user.email if auth.user_id else None),
                 Field('customer_name', 'text'),
                 Field('order_total', 'float'),
                 #Field('customer_info', 'blob'),
                 #Field('transaction_token', 'blob'),
                 Field('cart', 'blob'),
+                )
+
+# Driver scheduling table
+db.define_table('driver_sched',
+                Field('driver_id', default=auth.user_id, readable=False, writable=False), #saves user_id with times
+                Field('driver', default=auth.user.email if auth.user_id else None),
+                Field('driver_location', default='', requires=IS_IN_SET(['Safeway', 'Ferells Donuts', '711'])),
+                Field('first_interval', 'boolean', label='9:30'),
+                Field('second_interval', 'boolean', label='10:30'),
+                Field('third_interval', 'boolean', label='11:30'),
                 )
 
 # Let's define a secret key for stripe transactions.
