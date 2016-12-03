@@ -182,6 +182,8 @@ def view_orders():
 def manage_schedule():
     q = db.driver_sched
 
+    sched = db().select(db.driver_sched.ALL)
+
     form = SQLFORM.grid(
         q,
         editable=True,
@@ -191,7 +193,7 @@ def manage_schedule():
         details=True,
     )
 
-    return dict(form=form)
+    return dict(form=form, sched=sched)
 
 def user():
     """
