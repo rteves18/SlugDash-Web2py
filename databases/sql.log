@@ -1,4 +1,8 @@
+<<<<<<< HEAD
 timestamp: 2016-12-02T23:38:22.770793
+=======
+timestamp: 2016-12-03T00:57:57.045221
+>>>>>>> routing
 CREATE TABLE web2py_session_SlugDash(
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     locked CHAR(1),
@@ -9,7 +13,11 @@ CREATE TABLE web2py_session_SlugDash(
     session_data BLOB
 );
 success!
+<<<<<<< HEAD
 timestamp: 2016-12-02T23:38:22.775697
+=======
+timestamp: 2016-12-03T00:57:57.082677
+>>>>>>> routing
 CREATE TABLE auth_user(
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     first_name CHAR(128),
@@ -22,21 +30,33 @@ CREATE TABLE auth_user(
     address CHAR(512)
 );
 success!
+<<<<<<< HEAD
 timestamp: 2016-12-02T23:38:22.778639
+=======
+timestamp: 2016-12-03T00:57:57.089480
+>>>>>>> routing
 CREATE TABLE auth_group(
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     role CHAR(512),
     description TEXT
 );
 success!
+<<<<<<< HEAD
 timestamp: 2016-12-02T23:38:22.783066
+=======
+timestamp: 2016-12-03T00:57:57.133933
+>>>>>>> routing
 CREATE TABLE auth_membership(
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     user_id INTEGER REFERENCES auth_user (id) ON DELETE CASCADE  ,
     group_id INTEGER REFERENCES auth_group (id) ON DELETE CASCADE  
 );
 success!
+<<<<<<< HEAD
 timestamp: 2016-12-02T23:38:22.786024
+=======
+timestamp: 2016-12-03T00:57:57.141712
+>>>>>>> routing
 CREATE TABLE auth_permission(
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     group_id INTEGER REFERENCES auth_group (id) ON DELETE CASCADE  ,
@@ -45,7 +65,11 @@ CREATE TABLE auth_permission(
     record_id INTEGER
 );
 success!
+<<<<<<< HEAD
 timestamp: 2016-12-02T23:38:22.789009
+=======
+timestamp: 2016-12-03T00:57:57.150977
+>>>>>>> routing
 CREATE TABLE auth_event(
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     time_stamp TIMESTAMP,
@@ -55,7 +79,11 @@ CREATE TABLE auth_event(
     description TEXT
 );
 success!
+<<<<<<< HEAD
 timestamp: 2016-12-02T23:38:22.792154
+=======
+timestamp: 2016-12-03T00:57:57.159283
+>>>>>>> routing
 CREATE TABLE auth_cas(
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     user_id INTEGER REFERENCES auth_user (id) ON DELETE CASCADE  ,
@@ -65,7 +93,11 @@ CREATE TABLE auth_cas(
     renew CHAR(1)
 );
 success!
+<<<<<<< HEAD
 timestamp: 2016-12-02T23:38:22.797026
+=======
+timestamp: 2016-12-03T00:57:57.174358
+>>>>>>> routing
 CREATE TABLE product(
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     product_name CHAR(512),
@@ -75,7 +107,11 @@ CREATE TABLE product(
     description TEXT
 );
 success!
+<<<<<<< HEAD
 timestamp: 2016-12-02T23:38:22.800924
+=======
+timestamp: 2016-12-03T00:57:57.182941
+>>>>>>> routing
 CREATE TABLE customer_order(
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     user_email CHAR(512),
@@ -84,6 +120,7 @@ CREATE TABLE customer_order(
     customer_name TEXT,
     order_total DOUBLE,
     cart BLOB
+<<<<<<< HEAD
 );
 success!
 timestamp: 2016-12-02T23:38:22.804198
@@ -97,5 +134,7 @@ CREATE TABLE driver_schedule(
     second_interval CHAR(1),
     third_interval CHAR(1),
     signup_date DATE
+=======
+>>>>>>> routing
 );
 success!

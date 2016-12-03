@@ -48,14 +48,21 @@
             <div class="shopping_button quarter" v-if="logged_in">
 
                 <!--Display Order History Page on click-->
-                <span v-if="page=='prod' || page=='cart' || page=='main_page'">
+                <span v-if="page=='prod' || page=='cart' || page=='safeway'">
+                   <button class="btn orange back-btn" v-on:click="goto('main_page')">
+                       Back
+                    </button>
+                </span>
+
+                <!--Display Order History Page on click-->
+                <span v-if="page=='prod' || page=='cart' || page=='main_page' || page=='safeway'">
                     <button class="btn black"v-on:click="goto('order_list')">
                         <i class="fa fa-clock-o"></i> View Orders
                     </button>
                 </span>
 
                 <!--Display Cart Page on click-->
-                <span v-if="page=='prod' || page=='checkout' || page=='main_page'">
+                <span v-if="page=='prod' || page=='checkout' || page=='main_page' || page=='safeway'">
                     <button class="btn orange" v-on:click="goto('cart')">
                         <i class="fa fa-lg fa-shopping-cart"></i> ${cart_size}
                     </button>
@@ -111,15 +118,16 @@
         </div>
 
         <!--Main Page-->
-        <div v-if="page=='main_page'">
+     <div v-if="page=='main_page'">
         <!--============================Welcome Greeting============================-->
-        <div class="post">
-		<h2 class="welcome"> Welcome to SlugDash </h2>
-		<p class="intro">  UC Santa Cruz's on campus delivery solution!</p>
-	    </div>
 
+                <div class="post">
+		            <h2 class="welcome"> Welcome to SlugDash </h2>
+		                <p class="intro">  UC Santa Cruz's on campus delivery solution!</p>
+	            </div>
         <!--============================STORE SELECTION============================-->
 
+            <h2 class="select" v-if="logged_in">Select a Store or Shop!</h2>
         <ul class="grid cs-style-2">
 				<li>
 					<figure>
@@ -169,9 +177,60 @@
 
         <!--Safeway page content-->
         <div v-if="page=='safeway'">
-            <h1>HELLO</h1>
-            <button class="btn orange" v-on:click="goto('main_page')">
-                Main Page
+
+           <div v-for="product in products" class="container">
+                <div class="third prod_image">
+                    <ul class="grid cs-style-3">
+				<li>
+					<figure>
+						<img v-bind:src="product.image_url" alt="img02">
+						<figcaption>
+							<h1>${product.product_name}</h1>
+                            <span>$ ${product.price}</span>
+                            <button class="btn" v-on:click="inc_desired_quantity(product._idx, -1)">
+                                <i class="fa fa-minus"></i>
+                            </button>
+                            <button v-if="logged_in" class="btn btn-warning" v-on:click="buy_product(product._idx)"><i class="fa fa-lg fa-shopping-cart"></i> Add to Cart</button>
+                            <button v-if="!logged_in" class="btn btn-warning disabled">
+                                <i class="fa fa-lg fa-shopping-cart"></i> Buy
+                            </button>
+                        <p>${product.description}</p>
+						</figcaption>
+					</figure>
+				</li>
+
+            <li>
+                    </ul>
+                    <img v-bind:src="product.image_url" width="100%" class="product_image"/>
+                </div>
+                <div class="twothirds product_info">
+                    <div class="product_name"><h2>${product.product_name}</h2></div>
+                    <div class="product_quantity_price">
+                        <span class="product_price">$ ${product.price}</span>
+                        <span class="product_quantity">Quantity in stock: ${product.quantity}</span>
+                        <span class="buy_buttons">
+                            <button class="btn" v-on:click="inc_desired_quantity(product._idx, 1)"><i class="fa fa-plus"></i></button>
+                            <span class="desired_quantity">${product.desired_quantity}</span>
+
+                            <!--Buy button-->
+                            <button class="btn" v-on:click="inc_desired_quantity(product._idx, -1)">
+                                <i class="fa fa-minus"></i>
+                            </button>
+                            <button v-if="logged_in" class="btn btn-warning" v-on:click="buy_product(product._idx)"><i class="fa fa-lg fa-shopping-cart"></i> Buy</button>
+                            <button v-if="!logged_in" class="btn btn-warning disabled">
+                                <i class="fa fa-lg fa-shopping-cart"></i> Buy
+                            </button>
+                        </span>
+                    </div>
+                    <div class="product_description">
+                        <p>${product.description}</p>
+                    </div>
+
+                </div>
+
+            </div>
+            <button class="btn orange center-block" v-on:click="goto('main_page')">
+                Back
             </button>
         </div>
 

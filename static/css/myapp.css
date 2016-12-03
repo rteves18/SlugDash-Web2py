@@ -48,6 +48,13 @@ div.main_content .shopping_button {
   margin-top: 10px;
   margin-bottom: 10px;
 }
+
+div.main_content .shopping_button button.back-btn{
+  left: auto;
+  margin-top: 10px;
+  margin-bottom: 10px;
+}
+
 /* line 35, ../sass/_main.scss */
 div.main_content .search_div {
   margin-top: 10px;
@@ -87,6 +94,14 @@ table {
     font-size: 30px;
     font-family: 'Lato', Calibri, Arial, sans-serif;
     text-align: center;
+}
+
+.select{
+    color: lightslategrey;
+    text-align: center;
+    font-size: 80px;
+    font-family: 'Lato', Calibri, Arial, sans-serif;
+    padding-bottom: 60px;
 }
 
 .post{

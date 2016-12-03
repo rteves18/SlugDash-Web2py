@@ -41,6 +41,10 @@
 	color: #fff;
 }
 
+.grid figcaption h1 {
+
+}
+
 .grid figcaption span:before {
 	content: 'on ';
 }
@@ -123,6 +127,12 @@
 /* Caption Style 3 */
 .cs-style-3 figure {
 	overflow: hidden;
+}
+
+.cs-style-2 figcaption h1{
+		margin: 0;
+	padding: 0;
+	color: #fff;
 }
 
 .cs-style-3 figure img {
