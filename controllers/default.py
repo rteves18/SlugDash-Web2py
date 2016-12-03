@@ -57,7 +57,7 @@ def get_products():
 # Fetch products from server
 def get_products():
     import requests
-    r = requests.get('http://luca-teaching.appspot.com/get_products')
+    r = requests.get('http://bookswap-rark.appspot.com/')
     result = r.json()
     products = result['products']
     for p in products:

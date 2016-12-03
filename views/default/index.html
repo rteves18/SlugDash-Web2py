@@ -180,28 +180,30 @@
             <div class="container-fluid">
             <div class="row">
             <div v-for="product in products" class="col-sm-4">
-                    <ul class="grid cs-style-3">
-				<li>
-					<figure>
-						<img v-bind:src="product.image_url" alt="img02">
-						<figcaption>
-							<h1>${product.product_name}</h1>
-                            <span class="item">$ ${product.price}</span>
-                            <div class="visible-lg-inline right">
-                            <button v-if="logged_in" class="btn btn-warning" v-on:click="buy_product(product._idx)"><i class="fa fa-lg fa-shopping-cart"></i> Add to Cart</button>
-                            <button v-if="!logged_in" class="btn btn-warning disabled">
-                                <i class="fa fa-lg fa-shopping-cart"></i> Add to Cart
-                            </button>
-                                <button class="btn" v-on:click="inc_desired_quantity(product._idx, -1)">
-                                <i class="fa fa-minus"></i>
-                            </button>
-                                <span class="desired_quantity">${product.desired_quantity}</span>
-                                <button class="btn" v-on:click="inc_desired_quantity(product._idx, 1)"><i class="fa fa-plus"></i></button>
-                            </div>
-						</figcaption>
-					</figure>
-				</li>
-                        </ul>
+                <div v-if="page==product.location">
+                        <ul class="grid cs-style-3">
+                    <li>
+                        <figure>
+                            <img v-bind:src="product.image_url" alt="img02">
+                            <figcaption>
+                                <h1>${product.product_name}</h1>
+                                <span class="item">$ ${product.price}</span>
+                                <div class="visible-lg-inline right">
+                                <button v-if="logged_in" class="btn btn-warning" v-on:click="buy_product(product._idx)"><i class="fa fa-lg fa-shopping-cart"></i> Add to Cart</button>
+                                <button v-if="!logged_in" class="btn btn-warning disabled">
+                                    <i class="fa fa-lg fa-shopping-cart"></i> Add to Cart
+                                </button>
+                                    <button class="btn" v-on:click="inc_desired_quantity(product._idx, -1)">
+                                    <i class="fa fa-minus"></i>
+                                </button>
+                                    <span class="desired_quantity">${product.desired_quantity}</span>
+                                    <button class="btn" v-on:click="inc_desired_quantity(product._idx, 1)"><i class="fa fa-plus"></i></button>
+                                </div>
+                            </figcaption>
+                        </figure>
+                    </li>
+                            </ul>
+                    </div>
                     </div>
                     </div>
                 </div>
@@ -220,6 +222,7 @@
             <div class="container-fluid">
             <div class="row">
             <div v-for="product in products" class="col-sm-4">
+                <div v-if="page==product.location">
                     <ul class="grid cs-style-3">
 				<li>
 					<figure>
@@ -242,6 +245,7 @@
 					</figure>
 				</li>
                         </ul>
+                    </div>
                     </div>
                     </div>
                 </div>
@@ -260,28 +264,31 @@
             <div class="container-fluid">
             <div class="row">
             <div v-for="product in products" class="col-sm-4">
-                    <ul class="grid cs-style-3">
-				<li>
-					<figure>
-						<img v-bind:src="product.image_url" alt="img02">
-						<figcaption>
-							<h1>${product.product_name}</h1>
-                            <span class="item">$ ${product.price}</span>
-                            <div class="visible-lg-inline right">
-                            <button v-if="logged_in" class="btn btn-warning" v-on:click="buy_product(product._idx)"><i class="fa fa-lg fa-shopping-cart"></i> Add to Cart</button>
-                            <button v-if="!logged_in" class="btn btn-warning disabled">
-                                <i class="fa fa-lg fa-shopping-cart"></i> Add to Cart
-                            </button>
-                                <button class="btn" v-on:click="inc_desired_quantity(product._idx, -1)">
-                                <i class="fa fa-minus"></i>
-                            </button>
-                                <span class="desired_quantity">${product.desired_quantity}</span>
-                                <button class="btn" v-on:click="inc_desired_quantity(product._idx, 1)"><i class="fa fa-plus"></i></button>
-                            </div>
-						</figcaption>
-					</figure>
-				</li>
-                        </ul>
+                <div v-if="page==product.location">
+                        <ul class="grid cs-style-3">
+                    <li>
+                        <figure>
+                            <img v-bind:src="product.image_url" alt="img02">
+                            <figcaption>
+                                <h1>${product.product_name}</h1>
+                                <span class="item">$ ${product.price}</span>
+                                <div class="visible-lg-inline right">
+                                <button v-if="logged_in" class="btn btn-warning" v-on:click="buy_product(product._idx)"><i class="fa fa-lg fa-shopping-cart"></i> Add to Cart</button>
+                                <button v-if="!logged_in" class="btn btn-warning disabled">
+                                    <i class="fa fa-lg fa-shopping-cart"></i> Add to Cart
+                                </button>
+                                    <button class="btn" v-on:click="inc_desired_quantity(product._idx, -1)">
+                                    <i class="fa fa-minus"></i>
+                                </button>
+                                    <span class="desired_quantity">${product.desired_quantity}</span>
+                                    <button class="btn" v-on:click="inc_desired_quantity(product._idx, 1)"><i class="fa fa-plus"></i></button>
+                                </div>
+                            </figcaption>
+                        </figure>
+                    </li>
+                            </ul>
+                    </div>
+
                     </div>
                     </div>
                 </div>
