@@ -180,9 +180,9 @@ def view_orders():
 # Interface for managing schedule for drivers
 @auth.requires(auth.has_membership(group_id='driver'))
 def manage_schedule():
-    q = db.driver_sched
+    q = db.driver_schedule
 
-    sched = db().select(db.driver_sched.ALL)
+    sched = db().select(db.driver_schedule.ALL)
 
     form = SQLFORM.grid(
         q,
