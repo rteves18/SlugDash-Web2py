@@ -55,7 +55,7 @@ def _():
             (T('View Orders'), False, URL('default', 'view_orders')),
             (T('Manage Products'), False, URL('default', 'product_management')),
         ]
-    if auth.has_membership('driver'):
+    if auth.has_membership('driver') or auth.has_membership('super_admin'):
         response.menu += [
             (T('Manage Schedule'), False, URL('default', 'manage_schedule')),
         ]

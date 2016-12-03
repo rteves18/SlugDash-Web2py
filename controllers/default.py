@@ -178,7 +178,7 @@ def view_orders():
     return dict(form=form, orders=orders)
 
 # Interface for managing schedule for drivers
-@auth.requires(auth.has_membership(group_id='driver'))
+@auth.requires(auth.has_membership('super_admin') or auth.has_membership('driver'))
 def manage_schedule():
     q = db.driver_schedule
 
