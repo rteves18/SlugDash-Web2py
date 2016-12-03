@@ -1,3 +1,5 @@
+{{backimage = URL('static','images/seven.jpg')}}
+
 {{extend 'layout.html'}}
 
 {{block head}}
@@ -107,13 +109,14 @@
             </div>
         </div>
 
+
+        <!--============================Welcome Greeting============================-->
         <div class="post">
-		<span class="icon fa fa-cutlery"> </span>
-		<h2> Welcome to SlugDash </h2>
-		<p class="center">  UC Santa Cruz's on campus delivery solution!</p>
+		<h2 class="welcome"> Welcome to SlugDash </h2>
+		<p class="intro">  UC Santa Cruz's on campus delivery solution!</p>
 	</div>
 
-        <!--Product page content-->
+        <!--============================STORE SELECTION============================-->
 
         <ul class="grid cs-style-2">
 				<li>
@@ -122,7 +125,7 @@
 						<figcaption>
 							<h3>Safeway</h3>
                             <span>Mission Street</span>
-							<button href="{{=URL('views','default/safeway.html')}}">Select Items</button>
+							<button onclick="">Select Store</button>
 						</figcaption>
 					</figure>
 				</li>
@@ -131,9 +134,9 @@
 					<figure>
 						<img src="{{=URL('static','images/ferrells.jpg')}}" alt="img02">
 						<figcaption>
-							<h3>Ferrells</h3>
+							<h3>Ferrell's Donuts</h3>
                             <span>Mission Street</span>
-							<button href="{{=URL('views','default/safeway.html')}}">Select Items</button>
+							<button onclick="">Select Store</button>
 						</figcaption>
 					</figure>
 				</li>
@@ -142,20 +145,24 @@
 					<figure>
 						<img src="{{=URL('static','images/711.jpg')}}" alt="img02">
 						<figcaption>
-							<h3>711</h3>
-                            <span>Bay</span>
-							<button href="{{=URL('views','default/safeway.html')}}">Select Items</button>
+							<h3>7-Eleven</h3>
+                            <span>Mission Street</span>
+							<button onclick="">Select Store</button>
+						</figcaption>
+					</figure>
+				</li>
+
+            <li>
+                <figure>
+						<img src="{{=URL('static','images/comingsoon.jpg')}}" alt="img02">
+						<figcaption>
+							<h3>More to come</h3>
+                            <span>SlugDash</span>
+							<button href="{{=URL('views','default/')}}">View</button>
 						</figcaption>
 					</figure>
 				</li>
         </ul>
-        <div class="container-fluid center-block">
-   <div class="row">
-	<img src="{{=URL('static','images/safeway.jpg')}}" class="img-responsive">
-       <img src="{{=URL('static','images/ferrells.jpg')}}" class="img-responsive">
-       <img src="{{=URL('static','images/711.jpg')}}" class="img-responsive">
-   </div>
-</div>
 
         <div v-if="page=='prod'" id="products_list">
             <div v-for="product in products" class="container">

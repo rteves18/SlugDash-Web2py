@@ -1,6 +1,7 @@
-
-html {
-  background-color: red;
+body {
+        font-family: 'Lato', Calibri, Arial, sans-serif;
+        color: #b3b9bf;
+        background: #f9f9f9;
 }
 
 /* line 1, ../sass/_main.scss */
@@ -73,6 +74,19 @@ table {
   border-right: 0px solid #dddddd;
 }
 
+.welcome{
+    font-size: 100px;
+    color: lightslategrey;
+    font-family: 'Lato', Calibri, Arial, sans-serif;
+    text-align: center;
+}
+
+.intro{
+    font-size: 30px;
+    font-family: 'Lato', Calibri, Arial, sans-serif;
+    text-align: center;
+}
+
 .post{
 	margin-bottom: 80px;
 	text-align: center;
@@ -81,8 +95,14 @@ table {
 span.icon{
 	display: block;
 	font-size: 200px;
-	color: #111;
+	color: #c0c0c0;
 	margin: 30px 0px;
+}
+
+a.link{
+    position: relative;
+	right: 50px;
+	top: 30px;
 }
 
 .hidden{
