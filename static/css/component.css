@@ -42,14 +42,11 @@
 }
 
 .grid figcaption h1 {
-
+    margin: 0;
+    padding: 0;
 }
 
-.grid figcaption span:before {
-	content: 'on ';
-}
-
-.grid figcaption button {
+.grid figcaption a.ani {
 	text-align: center;
 	padding: 5px 10px;
 	border-radius: 2px;
@@ -91,7 +88,7 @@
 	display: block;
 }
 
-.cs-style-1 figcaption button {
+.cs-style-1 figcaption a {
 	margin-top: 30px;
 }
 
@@ -118,7 +115,7 @@
 	bottom: 0;
 }
 
-.cs-style-2 figcaption button {
+.cs-style-2 figcaption a.ani {
 	position: absolute;
 	right: 20px;
 	top: 30px;
@@ -129,10 +126,38 @@
 	overflow: hidden;
 }
 
+.cs-style-3 figcaption a.minus {
+    position:relative;
+    top:20%;
+    left:50%;
+	text-align: center;
+	padding: 5px 10px;
+	border-radius: 2px;
+	display: inline-block;
+	background: green;
+	color: #fff;
+}
+
+.cs-style-3 figcaption h2.desired_quantity {
+    position: relative;
+    top: auto;
+    left: auto;
+    font-size: small;
+	padding: 5px 10px;
+	border-radius: 2px;
+	display: inline-block;
+	background: green;
+	color: #fff;
+}
+
 .cs-style-2 figcaption h1{
-		margin: 0;
+	margin: 0;
 	padding: 0;
 	color: #fff;
+}
+
+.cs-style-2 figcaption span.on:before {
+	content: 'On ';
 }
 
 .cs-style-3 figure img {
@@ -176,11 +201,38 @@
 	transition: transform 0.4s, opacity 0.1s;
 }
 
-.cs-style-3 figcaption button {
+.cs-style-3 figcaption a {
 	position: absolute;
 	bottom: 20px;
 	right: 20px;
 }
+
+.cs-style-3 figcaption h1 {
+	margin: 0;
+    margin-bottom: 0;
+    color: #ffffff;
+	bottom: 20px;
+	right: 20px;
+}
+
+.cs-style-3 figcaption.containr {
+    display: inline;
+    margin-bottom: 3px;
+    color: #01ff70;
+}
+
+.cs-style-3 a{
+    display: inline;
+}
+
+.cs-style-3 figcaption span.item {
+    font-size: medium;
+}
+
+.cs-style-3 figcaption span.item:before {
+	content: 'Price: ';
+}
+
 
 /* Caption Style 4 */
 .cs-style-4 li {
@@ -245,7 +297,7 @@
 	transition: transform 0.4s, opacity 0.1s;
 }
 
-.cs-style-4 figcaption button {
+.cs-style-4 figcaption a {
 	position: absolute;
 	bottom: 20px;
 	right: 20px;
@@ -292,7 +344,7 @@
 	opacity: 1;
 }
 
-.cs-style-5 figure button {
+.cs-style-5 figure a {
 	position: absolute;
 	bottom: 20px;
 	right: 20px;
@@ -323,7 +375,7 @@
 	margin-top: 60%;
 }
 
-.cs-style-6 figcaption button {
+.cs-style-6 figcaption a {
 	position: absolute;
 	bottom: 20px;
 	right: 20px;
@@ -367,14 +419,14 @@
 
 .cs-style-7 figcaption h3,
 .cs-style-7 figcaption span,
-.cs-style-7 figcaption button {
+.cs-style-7 figcaption a {
 	opacity: 0;
 	-webkit-transition: opacity 0s;
 	-moz-transition: opacity 0s;
 	transition: opacity 0s;
 }
 
-.cs-style-7 figcaption button {
+.cs-style-7 figcaption a {
 	position: absolute;
 	bottom: 20px;
 	right: 20px;
@@ -382,10 +434,10 @@
 
 .no-touch .cs-style-7 figure:hover figcaption h3,
 .no-touch .cs-style-7 figure:hover figcaption span,
-.no-touch .cs-style-7 figure:hover figcaption button,
+.no-touch .cs-style-7 figure:hover figcaption a,
 .cs-style-7 figure.cs-hover figcaption h3,
 .cs-style-7 figure.cs-hover figcaption span,
-.cs-style-7 figure.cs-hover figcaption button {
+.cs-style-7 figure.cs-hover figcaption a {
 	-webkit-transition: opacity 0.3s 0.2s;
 	-moz-transition: opacity 0.3s 0.2s;
 	transition: opacity 0.3s 0.2s;

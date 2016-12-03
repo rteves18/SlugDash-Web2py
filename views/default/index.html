@@ -134,8 +134,8 @@
 						<img src="{{=URL('static','images/safeway.jpg')}}" alt="img02">
 						<figcaption>
 							<h3>Safeway</h3>
-                            <span>Mission Street</span>
-							<button v-on:click="goto('safeway')">Select Store</button>
+                            <span class="on">Mission Street</span>
+							<a class="ani" v-on:click="goto('safeway')">Select Store</a>
 						</figcaption>
 					</figure>
 				</li>
@@ -145,7 +145,7 @@
 						<img src="{{=URL('static','images/ferrells.jpg')}}" alt="img02">
 						<figcaption>
 							<h3>Ferrell's Donuts</h3>
-                            <span>Mission Street</span>
+                            <span class="on">Mission Street</span>
 							<button onclick="">Select Store</button>
 						</figcaption>
 					</figure>
@@ -156,7 +156,7 @@
 						<img src="{{=URL('static','images/711.jpg')}}" alt="img02">
 						<figcaption>
 							<h3>7-Eleven</h3>
-                            <span>Mission Street</span>
+                            <span class="on">Mission Street</span>
 							<button onclick="">Select Store</button>
 						</figcaption>
 					</figure>
@@ -167,7 +167,7 @@
 						<img src="{{=URL('static','images/comingsoon.jpg')}}" alt="img02">
 						<figcaption>
 							<h3>More to come</h3>
-                            <span>SlugDash</span>
+                            <span>To SlugDash</span>
 							<button href="{{=URL('views','default/')}}">View</button>
 						</figcaption>
 					</figure>
@@ -175,64 +175,45 @@
         </ul>
         </div>
 
-        <!--Safeway page content-->
+        <!--============================SAFEWAY============================-->
         <div v-if="page=='safeway'">
-
-           <div v-for="product in products" class="container">
-                <div class="third prod_image">
+            <img class="safeway_img center-block" src="{{=URL('static','images/Safeway_Logo.png')}}"/>
+            <div class="container-fluid">
+            <div class="row">
+            <div v-for="product in products" class="col-sm-4">
                     <ul class="grid cs-style-3">
 				<li>
 					<figure>
 						<img v-bind:src="product.image_url" alt="img02">
 						<figcaption>
 							<h1>${product.product_name}</h1>
-                            <span>$ ${product.price}</span>
-                            <button class="btn" v-on:click="inc_desired_quantity(product._idx, -1)">
-                                <i class="fa fa-minus"></i>
-                            </button>
+                            <span class="item">$ ${product.price}</span>
+                            <div class="visible-lg-inline right">
                             <button v-if="logged_in" class="btn btn-warning" v-on:click="buy_product(product._idx)"><i class="fa fa-lg fa-shopping-cart"></i> Add to Cart</button>
                             <button v-if="!logged_in" class="btn btn-warning disabled">
-                                <i class="fa fa-lg fa-shopping-cart"></i> Buy
+                                <i class="fa fa-lg fa-shopping-cart"></i> Add to Cart
                             </button>
-                        <p>${product.description}</p>
+                                <button class="btn" v-on:click="inc_desired_quantity(product._idx, -1)">
+                                <i class="fa fa-minus"></i>
+                            </button>
+                                <span class="desired_quantity">${product.desired_quantity}</span>
+                                <button class="btn" v-on:click="inc_desired_quantity(product._idx, 1)"><i class="fa fa-plus"></i></button>
+                            </div>
 						</figcaption>
 					</figure>
 				</li>
-
-            <li>
-                    </ul>
-                    <img v-bind:src="product.image_url" width="100%" class="product_image"/>
-                </div>
-                <div class="twothirds product_info">
-                    <div class="product_name"><h2>${product.product_name}</h2></div>
-                    <div class="product_quantity_price">
-                        <span class="product_price">$ ${product.price}</span>
-                        <span class="product_quantity">Quantity in stock: ${product.quantity}</span>
-                        <span class="buy_buttons">
-                            <button class="btn" v-on:click="inc_desired_quantity(product._idx, 1)"><i class="fa fa-plus"></i></button>
-                            <span class="desired_quantity">${product.desired_quantity}</span>
-
-                            <!--Buy button-->
-                            <button class="btn" v-on:click="inc_desired_quantity(product._idx, -1)">
-                                <i class="fa fa-minus"></i>
-                            </button>
-                            <button v-if="logged_in" class="btn btn-warning" v-on:click="buy_product(product._idx)"><i class="fa fa-lg fa-shopping-cart"></i> Buy</button>
-                            <button v-if="!logged_in" class="btn btn-warning disabled">
-                                <i class="fa fa-lg fa-shopping-cart"></i> Buy
-                            </button>
-                        </span>
+                        </ul>
                     </div>
-                    <div class="product_description">
-                        <p>${product.description}</p>
                     </div>
-
                 </div>
 
-            </div>
             <button class="btn orange center-block" v-on:click="goto('main_page')">
                 Back
             </button>
-        </div>
+
+         </div>
+
+         <!--=========================^^===SAFEWAY===^^=========================-->
 
         <!--Product page content-->
         <div v-if="page=='prod'" id="products_list">
@@ -335,7 +316,7 @@
     </div>
 
 </div>
-<script src="{{=URL('static','toucheffects.js')}}"></script>
+<script src="{{=URL('static','js/toucheffects.js')}}"></script>
     <script type="text/javascript">
         jQuery(document).ready(function() {
         jQuery('.post').addClass("hide_me").viewportChecker({

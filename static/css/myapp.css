@@ -104,6 +104,10 @@ table {
     padding-bottom: 60px;
 }
 
+img.safeway_img{
+    width: 500px;
+}
+
 .post{
 	margin-bottom: 80px;
 	text-align: center;
