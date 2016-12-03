@@ -177,6 +177,8 @@ def view_orders():
     )
     return dict(form=form, orders=orders)
 
+def safeway():
+    return "OK"
 
 def user():
     """

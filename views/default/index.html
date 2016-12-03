@@ -1,14 +1,26 @@
+{{backimage = URL('static','images/seven.jpg')}}
+
 {{extend 'layout.html'}}
 
 {{block head}}
 <script src="{{=URL('static', 'js/vue.js')}}"></script>
 <script src="https://checkout.stripe.com/checkout.js"></script>
+<link href="{{=URL('static','css/animate.css')}}" rel="stylesheet" type="text/css"/>
+<script src="{{=URL('static','js/viewportchecker.js')}}"></script>
+<link href="{{=URL('static','css/component.css')}}" rel="stylesheet" type="text/css"/>
+<script src="{{=URL('static','js/modernizr.custom.js')}}"></script>
 <script>
     var products_url = "{{=URL('default', 'get_products')}}";
     var purchase_url = "{{=URL('default', 'purchase', hmac_key=session.hmac_key)}}"
     var orders_url = "{{=URL('default', 'get_orders')}}";
 </script>
 {{end}}
+
+  <div class="container-fluid center-block">
+   <div class="row">
+	<img src="{{=URL('static','images/header-1.jpg')}}" class="img-responsive">
+   </div>
+</div>
 
 <div class="main_content">
 
@@ -97,7 +109,61 @@
             </div>
         </div>
 
-        <!--Product page content-->
+
+        <!--============================Welcome Greeting============================-->
+        <div class="post">
+		<h2 class="welcome"> Welcome to SlugDash </h2>
+		<p class="intro">  UC Santa Cruz's on campus delivery solution!</p>
+	</div>
+
+        <!--============================STORE SELECTION============================-->
+
+        <ul class="grid cs-style-2">
+				<li>
+					<figure>
+						<img src="{{=URL('static','images/safeway.jpg')}}" alt="img02">
+						<figcaption>
+							<h3>Safeway</h3>
+                            <span>Mission Street</span>
+							<button onclick="">Select Store</button>
+						</figcaption>
+					</figure>
+				</li>
+
+            <li>
+					<figure>
+						<img src="{{=URL('static','images/ferrells.jpg')}}" alt="img02">
+						<figcaption>
+							<h3>Ferrell's Donuts</h3>
+                            <span>Mission Street</span>
+							<button onclick="">Select Store</button>
+						</figcaption>
+					</figure>
+				</li>
+
+            <li>
+					<figure>
+						<img src="{{=URL('static','images/711.jpg')}}" alt="img02">
+						<figcaption>
+							<h3>7-Eleven</h3>
+                            <span>Mission Street</span>
+							<button onclick="">Select Store</button>
+						</figcaption>
+					</figure>
+				</li>
+
+            <li>
+                <figure>
+						<img src="{{=URL('static','images/comingsoon.jpg')}}" alt="img02">
+						<figcaption>
+							<h3>More to come</h3>
+                            <span>SlugDash</span>
+							<button href="{{=URL('views','default/')}}">View</button>
+						</figcaption>
+					</figure>
+				</li>
+        </ul>
+
         <div v-if="page=='prod'" id="products_list">
             <div v-for="product in products" class="container">
                 <div class="third prod_image">
@@ -200,5 +266,14 @@
     </div>
 
 </div>
+<script src="{{=URL('static','toucheffects.js')}}"></script>
+    <script type="text/javascript">
+        jQuery(document).ready(function() {
+        jQuery('.post').addClass("hide_me").viewportChecker({
+	    classToAdd: 'visible animated fadeInDown', // Class to add to the elements when they are visible
+	    offset: 100
+	   });
+    });
+    </script>
 
 <script src="{{=URL('static', 'js/default_index.js')}}"></script>
