@@ -137,7 +137,6 @@ var app = function() {
             amount: Math.round(self.vue.cart_total * 100),
         });*/
         self.send_data_to_server();
-        self.goto('prod');
     };
 
     self.send_data_to_server = function () {
@@ -157,8 +156,7 @@ var app = function() {
                 self.vue.cart = [];
                 self.update_cart();
                 self.store_cart();
-                self.goto('prod');
-                //$.web2py.flash("Thank you for your purchase");
+                self.goto('main_page');
                 self.flash_error('purchased');
             }
         );
