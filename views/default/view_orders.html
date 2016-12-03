@@ -37,6 +37,7 @@ tr:nth-child(even) {
             <th>Delivery Location</th>
 		</tr>
 		{{for o in orders:}}
+            {{=o}}
 		<tr>
             <th>{{=o.order_date}}</th>
 			<th>{{=o.customer_name}}</th>

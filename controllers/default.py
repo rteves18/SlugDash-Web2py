@@ -150,7 +150,7 @@ Need to work on:
     + Create group authentication to prevent certain users from accessing this page
     + Maybe work on improving the UI
 """
-#@auth.requires_membership('super_admin')
+@auth.requires_membership('super_admin')
 #@auth.requires(auth.has_membership(group_id='driver'))
 def view_orders():
     q = db.customer_order # This queries for all products.
@@ -177,8 +177,23 @@ def view_orders():
     )
     return dict(form=form, orders=orders)
 
-def safeway():
-    return "OK"
+# Interface for managing schedule for drivers
+@auth.requires(auth.has_membership(group_id='driver'))
+def manage_schedule():
+    q = db.driver_sched
+
+    sched = db().select(db.driver_sched.ALL)
+
+    form = SQLFORM.grid(
+        q,
+        editable=True,
+        create=True,
+        user_signature=True,
+        deletable=True,
+        details=True,
+    )
+
+    return dict(form=form, sched=sched)
 
 def user():
     """
