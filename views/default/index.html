@@ -1,4 +1,3 @@
-{{backimage = URL('static','images/seven.jpg')}}
 
 {{extend 'layout.html'}}
 
@@ -146,7 +145,7 @@
 						<figcaption>
 							<h3>Ferrell's Donuts</h3>
                             <span class="on">Mission Street</span>
-							<button onclick="">Select Store</button>
+							<a class="ani" v-on:click="goto('ferrells')">Select Shop</a>
 						</figcaption>
 					</figure>
 				</li>
@@ -157,7 +156,7 @@
 						<figcaption>
 							<h3>7-Eleven</h3>
                             <span class="on">Mission Street</span>
-							<button onclick="">Select Store</button>
+							<a class="ani" v-on:click="goto('seven')">Select Shop</a>
 						</figcaption>
 					</figure>
 				</li>
@@ -168,16 +167,16 @@
 						<figcaption>
 							<h3>More to come</h3>
                             <span>To SlugDash</span>
-							<button href="{{=URL('views','default/')}}">View</button>
+							<a class="ani" v-on:click="goto('soon')">Take a Look</a>
 						</figcaption>
 					</figure>
 				</li>
         </ul>
         </div>
 
-        <!--============================SAFEWAY============================-->
+        <!--=========================vv===SAFEWAY===vv=========================-->
         <div v-if="page=='safeway'">
-            <img class="safeway_img center-block" src="{{=URL('static','images/Safeway_Logo.png')}}"/>
+            <img class="safeway_img center-block" src="{{=URL('static','images/safeway_logo.png')}}"/>
             <div class="container-fluid">
             <div class="row">
             <div v-for="product in products" class="col-sm-4">
@@ -215,39 +214,135 @@
 
          <!--=========================^^===SAFEWAY===^^=========================-->
 
-        <!--Product page content-->
-        <div v-if="page=='prod'" id="products_list">
-            <div v-for="product in products" class="container">
-                <div class="third prod_image">
-                    <img v-bind:src="product.image_url" width="100%" class="product_image"/>
-                </div>
-                <div class="twothirds product_info">
-                    <div class="product_name"><h2>${product.product_name}</h2></div>
-                    <div class="product_quantity_price">
-                        <span class="product_price">$ ${product.price}</span>
-                        <span class="product_quantity">Quantity in stock: ${product.quantity}</span>
-                        <span class="buy_buttons">
-                            <button class="btn" v-on:click="inc_desired_quantity(product._idx, 1)"><i class="fa fa-plus"></i></button>
-                            <span class="desired_quantity">${product.desired_quantity}</span>
-
-                            <!--Buy button-->
-                            <button class="btn" v-on:click="inc_desired_quantity(product._idx, -1)">
+        <!--=========================vv===FERRELLS===vv=========================-->
+        <div v-if="page=='ferrells'">
+            <img class="ferrells_img center-block" src="{{=URL('static','images/ferrells_logo.png')}}"/>
+            <div class="container-fluid">
+            <div class="row">
+            <div v-for="product in products" class="col-sm-4">
+                    <ul class="grid cs-style-3">
+				<li>
+					<figure>
+						<img v-bind:src="product.image_url" alt="img02">
+						<figcaption>
+							<h1>${product.product_name}</h1>
+                            <span class="item">$ ${product.price}</span>
+                            <div class="visible-lg-inline right">
+                            <button v-if="logged_in" class="btn btn-warning" v-on:click="buy_product(product._idx)"><i class="fa fa-lg fa-shopping-cart"></i> Add to Cart</button>
+                            <button v-if="!logged_in" class="btn btn-warning disabled">
+                                <i class="fa fa-lg fa-shopping-cart"></i> Add to Cart
+                            </button>
+                                <button class="btn" v-on:click="inc_desired_quantity(product._idx, -1)">
                                 <i class="fa fa-minus"></i>
                             </button>
-                            <button v-if="logged_in" class="btn btn-warning" v-on:click="buy_product(product._idx)"><i class="fa fa-lg fa-shopping-cart"></i> Buy</button>
-                            <button v-if="!logged_in" class="btn btn-warning disabled">
-                                <i class="fa fa-lg fa-shopping-cart"></i> Buy
-                            </button>
-                        </span>
+                                <span class="desired_quantity">${product.desired_quantity}</span>
+                                <button class="btn" v-on:click="inc_desired_quantity(product._idx, 1)"><i class="fa fa-plus"></i></button>
+                            </div>
+						</figcaption>
+					</figure>
+				</li>
+                        </ul>
                     </div>
-                    <div class="product_description">
-                        <p>${product.description}</p>
                     </div>
-
                 </div>
 
-            </div>
+            <button class="btn orange center-block" v-on:click="goto('main_page')">
+                Back
+            </button>
+
+         </div>
+
+         <!--=========================^^===FERRELLS===^^=========================-->
+
+        <!--=========================vv===7-Eleven===vv=========================-->
+        <div v-if="page=='seven'">
+            <img class="seven_img center-block" src="{{=URL('static','images/seven_logo.png')}}"/>
+            <div class="container-fluid">
+            <div class="row">
+            <div v-for="product in products" class="col-sm-4">
+                    <ul class="grid cs-style-3">
+				<li>
+					<figure>
+						<img v-bind:src="product.image_url" alt="img02">
+						<figcaption>
+							<h1>${product.product_name}</h1>
+                            <span class="item">$ ${product.price}</span>
+                            <div class="visible-lg-inline right">
+                            <button v-if="logged_in" class="btn btn-warning" v-on:click="buy_product(product._idx)"><i class="fa fa-lg fa-shopping-cart"></i> Add to Cart</button>
+                            <button v-if="!logged_in" class="btn btn-warning disabled">
+                                <i class="fa fa-lg fa-shopping-cart"></i> Add to Cart
+                            </button>
+                                <button class="btn" v-on:click="inc_desired_quantity(product._idx, -1)">
+                                <i class="fa fa-minus"></i>
+                            </button>
+                                <span class="desired_quantity">${product.desired_quantity}</span>
+                                <button class="btn" v-on:click="inc_desired_quantity(product._idx, 1)"><i class="fa fa-plus"></i></button>
+                            </div>
+						</figcaption>
+					</figure>
+				</li>
+                        </ul>
+                    </div>
+                    </div>
+                </div>
+
+            <button class="btn orange center-block" v-on:click="goto('main_page')">
+                Back
+            </button>
+
+         </div>
+
+         <!--=========================^^===7-Eleven===^^=========================-->
+
+        <!--=========================vv===Coming Soon===vv=========================-->
+        <div v-if="page=='soon'">
+            <ul class="grid cs-style-2">
+				<li>
+					<figure>
+						<img src="{{=URL('static','images/sms.jpg')}}" alt="img02">
+						<figcaption>
+							<h3>SMS Live Updates</h3>
+                            <span> Between Drivers and Diners</span>
+						</figcaption>
+					</figure>
+				</li>
+
+            <li>
+					<figure>
+						<img src="{{=URL('static','images/pickup.jpg')}}" alt="img02">
+						<figcaption>
+							<h3>Special Order Pick Up</h3>
+                            <span>At any of you're favorite restuarants*</span>
+
+						</figcaption>
+					</figure>
+				</li>
+
+            <li>
+					<figure>
+						<img src="{{=URL('static','images/gps.jpg')}}" alt="img02">
+						<figcaption>
+							<h3>GPS Tracking</h3>
+                            <span>Of orders being delivered</span>
+						</figcaption>
+					</figure>
+				</li>
+
+            <li>
+                <figure>
+						<img src="{{=URL('static','images/driver.jpg')}}" alt="img02">
+						<figcaption>
+							<h3>Apply to be a Driver</h3>
+                            <span>Choose you're own hours</span>
+						</figcaption>
+					</figure>
+				</li>
+        </ul>
         </div>
+
+         <!--=========================^^===Coming Soon===^^=========================-->
+
+        <!-- R.I.P. page=='prod'-->
 
         <!--Cart page content-->
         <div v-if="page=='cart'" id="cart_list" class="container">
