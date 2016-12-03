@@ -94,12 +94,6 @@ table {
 	text-align: center;
 }
 
-span.icon{
-	display: block;
-	font-size: 200px;
-	color: #c0c0c0;
-	margin: 30px 0px;
-}
 
 a.link{
     position: relative;
@@ -114,4 +108,4 @@ a.link{
 .visible{
 	opacity: 1;
 }
->>>>>>> ui
+
