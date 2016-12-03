@@ -45,7 +45,7 @@ db.define_table('customer_order',
 
 # Driver scheduling table
 # =============================================================
-db.define_table('driver_sched',
+db.define_table('driver_schedule',
                 Field('driver_id', default=auth.user_id, readable=False, writable=False), #saves user_id with times
                 Field('driver_email', default=auth.user.email if auth.user_id else None),
                 Field('driver_name', default=get_user_name_from_email(auth.user.email) if auth.user_id else None),
@@ -57,7 +57,8 @@ db.define_table('driver_sched',
                 )
 
 # Requirements
-db.driver_sched.signup_date.requires=IS_NOT_EMPTY()
+db.driver_schedule.signup_date.requires=IS_NOT_EMPTY()
+
 # =============================================================
 
 # Let's define a secret key for stripe transactions.

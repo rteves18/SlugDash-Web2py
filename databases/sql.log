@@ -2970,3 +2970,251 @@ success!
 success!
 success!
 success!
+success!
+success!
+timestamp: 2016-12-02T23:21:26.731677
+CREATE TABLE driver_sched(
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    driver_id CHAR(512),
+    driver_email CHAR(512),
+    driver_name CHAR(512),
+    driver_location CHAR(512),
+    first_interval CHAR(1),
+    second_interval CHAR(1),
+    third_interval CHAR(1),
+    signup_date DATE
+);
+success!
+success!
+timestamp: 2016-12-02T23:21:28.432752
+CREATE TABLE driver_sched(
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    driver_id CHAR(512),
+    driver_email CHAR(512),
+    driver_name CHAR(512),
+    driver_location CHAR(512),
+    first_interval CHAR(1),
+    second_interval CHAR(1),
+    third_interval CHAR(1),
+    signup_date DATE
+);
+success!
+success!
+timestamp: 2016-12-02T23:22:16.850941
+CREATE TABLE driver_sched(
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    driver_id CHAR(512),
+    driver_email CHAR(512),
+    driver_name CHAR(512),
+    driver_location CHAR(512),
+    first_interval CHAR(1),
+    second_interval CHAR(1),
+    third_interval CHAR(1),
+    signup_date DATE
+);
+success!
+success!
+timestamp: 2016-12-02T23:22:27.983771
+CREATE TABLE driver_sched(
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    driver_id CHAR(512),
+    driver_email CHAR(512),
+    driver_name CHAR(512),
+    driver_location CHAR(512),
+    first_interval CHAR(1),
+    second_interval CHAR(1),
+    third_interval CHAR(1),
+    signup_date DATE
+);
+success!
+success!
+timestamp: 2016-12-02T23:23:30.942333
+CREATE TABLE driver_sched(
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    driver_id CHAR(512),
+    driver_email CHAR(512),
+    driver_name CHAR(512),
+    driver_location CHAR(512),
+    first_interval CHAR(1),
+    second_interval CHAR(1),
+    third_interval CHAR(1),
+    signup_date DATE
+);
+success!
+success!
+timestamp: 2016-12-02T23:24:16.490423
+CREATE TABLE driver_sched(
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    driver_id CHAR(512),
+    driver_email CHAR(512),
+    driver_name CHAR(512),
+    driver_location CHAR(512),
+    first_interval CHAR(1),
+    second_interval CHAR(1),
+    third_interval CHAR(1),
+    signup_date DATE
+);
+success!
+success!
+timestamp: 2016-12-02T23:24:39.346842
+CREATE TABLE driver_sched(
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    driver_id CHAR(512),
+    driver_email CHAR(512),
+    driver_name CHAR(512),
+    driver_location CHAR(512),
+    first_interval CHAR(1),
+    second_interval CHAR(1),
+    third_interval CHAR(1)
+);
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+timestamp: 2016-12-02T23:25:54.416550
+CREATE TABLE driver_sched(
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    driver_id CHAR(512),
+    driver_email CHAR(512),
+    driver_name CHAR(512),
+    driver_location CHAR(512),
+    first_interval CHAR(1),
+    second_interval CHAR(1),
+    third_interval CHAR(1),
+    signup_date DATE
+);
+success!
+success!
+timestamp: 2016-12-02T23:26:16.221243
+CREATE TABLE driver_sc(
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    driver_id CHAR(512),
+    driver_email CHAR(512),
+    driver_name CHAR(512),
+    driver_location CHAR(512),
+    first_interval CHAR(1),
+    second_interval CHAR(1),
+    third_interval CHAR(1),
+    signup_date DATE
+);
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+timestamp: 2016-12-02T23:26:26.495522
+CREATE TABLE driver_sched(
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    driver_id CHAR(512),
+    driver_email CHAR(512),
+    driver_name CHAR(512),
+    driver_location CHAR(512),
+    first_interval CHAR(1),
+    second_interval CHAR(1),
+    third_interval CHAR(1),
+    signup_date DATE
+);
+success!
+success!
+timestamp: 2016-12-02T23:26:42.309276
+CREATE TABLE driver_sche(
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    driver_id CHAR(512),
+    driver_email CHAR(512),
+    driver_name CHAR(512),
+    driver_location CHAR(512),
+    first_interval CHAR(1),
+    second_interval CHAR(1),
+    third_interval CHAR(1),
+    signup_date DATE
+);
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+timestamp: 2016-12-02T23:27:16.431303
+CREATE TABLE driver_schedule(
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    driver_id CHAR(512),
+    driver_email CHAR(512),
+    driver_name CHAR(512),
+    driver_location CHAR(512),
+    first_interval CHAR(1),
+    second_interval CHAR(1),
+    third_interval CHAR(1),
+    signup_date DATE
+);
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
