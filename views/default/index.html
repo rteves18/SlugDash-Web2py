@@ -43,6 +43,12 @@
                 </span>
             </div>
 
+            <div class="shopping_button right" v-if="page!='main_page' && !logged_in">
+                <button class="btn orange back-btn" v-on:click="goto('main_page')">
+                       Back
+                    </button>
+            </div>
+
             <!-- Display buttons on top right corner -->
             <div class="shopping_button quarter" v-if="logged_in">
 
@@ -206,7 +212,7 @@
                     </div>
                 </div>
 
-            <button class="btn orange center-block" v-on:click="goto('main_page')">
+            <button class="btn orange right" v-on:click="goto('main_page')">
                 Back
             </button>
 
@@ -246,7 +252,7 @@
                     </div>
                 </div>
 
-            <button class="btn orange center-block" v-on:click="goto('main_page')">
+            <button class="btn orange right" v-on:click="goto('main_page')">
                 Back
             </button>
 
@@ -286,7 +292,7 @@
                     </div>
                 </div>
 
-            <button class="btn orange center-block" v-on:click="goto('main_page')">
+            <button class="btn orange right" v-on:click="goto('main_page')">
                 Back
             </button>
 
@@ -338,6 +344,9 @@
 					</figure>
 				</li>
         </ul>
+             <button class="btn orange right" v-on:click="goto('main_page')">
+                Back
+            </button>
         </div>
 
          <!--=========================^^===Coming Soon===^^=========================-->

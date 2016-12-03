@@ -96,6 +96,10 @@ table {
   border-right: 0px solid #dddddd;
 }
 
+div.uni{
+    padding: 40px;
+}
+
 .welcome{
     font-size: 100px;
     color: lightslategrey;
