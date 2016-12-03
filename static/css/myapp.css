@@ -4,6 +4,19 @@ body {
         background: #f9f9f9;
 }
 
+div.clean_table{
+    padding: 40px 140px 40px 140px;
+}
+
+div.cleaner_table{
+    padding: 40px 700px 40px 100px;
+}
+div.checkout_text{
+    font-size: large;
+    margin: auto;
+}
+
+
 /* line 1, ../sass/_main.scss */
 .colorful {
   color: #bb8833;

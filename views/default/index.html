@@ -47,21 +47,21 @@
             <div class="shopping_button quarter" v-if="logged_in">
 
                 <!--Display Order History Page on click-->
-                <span v-if="page=='prod' || page=='cart' || page=='safeway'">
+                <span v-if="page=='cart' || page=='safeway' || page=='ferrells' || page=='seven' || page=='soon'">
                    <button class="btn orange back-btn" v-on:click="goto('main_page')">
                        Back
                     </button>
                 </span>
 
                 <!--Display Order History Page on click-->
-                <span v-if="page=='prod' || page=='cart' || page=='main_page' || page=='safeway'">
+                <span v-if="page=='cart' || page=='main_page' || page=='safeway' || page=='ferrells' || page=='seven'">
                     <button class="btn black"v-on:click="goto('order_list')">
                         <i class="fa fa-clock-o"></i> View Orders
                     </button>
                 </span>
 
                 <!--Display Cart Page on click-->
-                <span v-if="page=='prod' || page=='checkout' || page=='main_page' || page=='safeway'">
+                <span v-if="page=='checkout' || page=='main_page' || page=='safeway'|| page=='ferrells' || page=='seven'">
                     <button class="btn orange" v-on:click="goto('cart')">
                         <i class="fa fa-lg fa-shopping-cart"></i> ${cart_size}
                     </button>
@@ -69,7 +69,7 @@
 
                 <!--Display Home page on click-->
                 <span v-if="page=='cart' || page=='order_list' || page=='checkout'">
-                    <button class="btn" v-on:click="goto('prod')"> Continue shopping </button>
+                    <button class="btn" v-on:click="goto('main_page')"> Continue shopping </button>
                 </span>
 
             </div>
@@ -323,7 +323,7 @@
 						<img src="{{=URL('static','images/gps.jpg')}}" alt="img02">
 						<figcaption>
 							<h3>GPS Tracking</h3>
-                            <span>Of orders being delivered</span>
+                            <span>Of orders being delivered in real time</span>
 						</figcaption>
 					</figure>
 				</li>
@@ -382,7 +382,11 @@
         </div>
 
         <!--Checkout page content-->
+    <div class="control_bar container">
         <div v-if="page=='checkout'" id="checkout">
+            <span class="page_title"><i class="fa fa-shopping-cart"></i>
+                Checkout</span>
+            <div class="cleaner_table">
             <h5>Select a delivery location from the dropdown menu</h5>
             <!--ASK HOW TO DISPLAY A DEFAULT VALUE-->
             <select v-model="delivery_location" required>
@@ -406,11 +410,12 @@
                 <i class="fa fa-lg fa-check-circle-o"></i> Confirm Purchase
             </button>
 
+            </div>
         </div>
-
     </div>
+    </div> <!--VUE JS-->
 
-</div>
+</div> <!--MAIN CONTENT-->
 <script src="{{=URL('static','js/toucheffects.js')}}"></script>
     <script type="text/javascript">
         jQuery(document).ready(function() {

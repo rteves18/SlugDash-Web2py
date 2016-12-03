@@ -8,7 +8,7 @@
 
 .grid li {
 	display: inline-block;
-	width: 550px;
+	width: 440px;
 	margin: 0;
 	padding: 20px;
 	text-align: left;
@@ -98,6 +98,10 @@
 	-webkit-transition: -webkit-transform 0.4s;
 	-moz-transition: -moz-transform 0.4s;
 	transition: transform 0.4s;
+}
+
+.cs-style-2 li{
+    width: 500px;
 }
 
 .no-touch .cs-style-2 figure:hover img,
