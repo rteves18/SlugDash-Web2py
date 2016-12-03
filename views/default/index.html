@@ -47,14 +47,14 @@
             <div class="shopping_button quarter" v-if="logged_in">
 
                 <!--Display Order History Page on click-->
-                <span v-if="page=='prod' || page=='cart'">
+                <span v-if="page=='prod' || page=='cart' || page=='main_page'">
                     <button class="btn black"v-on:click="goto('order_list')">
                         <i class="fa fa-clock-o"></i> View Orders
                     </button>
                 </span>
 
                 <!--Display Cart Page on click-->
-                <span v-if="page=='prod' || page=='checkout'">
+                <span v-if="page=='prod' || page=='checkout' || page=='main_page'">
                     <button class="btn orange" v-on:click="goto('cart')">
                         <i class="fa fa-lg fa-shopping-cart"></i> ${cart_size}
                     </button>
@@ -109,12 +109,13 @@
             </div>
         </div>
 
-
+        <!--Main Page-->
+        <div v-if="page=='main_page'">
         <!--============================Welcome Greeting============================-->
         <div class="post">
 		<h2 class="welcome"> Welcome to SlugDash </h2>
 		<p class="intro">  UC Santa Cruz's on campus delivery solution!</p>
-	</div>
+	    </div>
 
         <!--============================STORE SELECTION============================-->
 
@@ -125,7 +126,7 @@
 						<figcaption>
 							<h3>Safeway</h3>
                             <span>Mission Street</span>
-							<button onclick="">Select Store</button>
+							<button v-on:click="goto('safeway')">Select Store</button>
 						</figcaption>
 					</figure>
 				</li>
@@ -163,7 +164,17 @@
 					</figure>
 				</li>
         </ul>
+        </div>
 
+        <!--Safeway page content-->
+        <div v-if="page=='safeway'">
+            <h1>HELLO</h1>
+            <button class="btn orange" v-on:click="goto('main_page')">
+                Main Page
+            </button>
+        </div>
+
+        <!--Product page content-->
         <div v-if="page=='prod'" id="products_list">
             <div v-for="product in products" class="container">
                 <div class="third prod_image">
@@ -233,8 +244,6 @@
             </div>
 
         </div>
-
-
 
         <!--Checkout page content-->
         <div v-if="page=='checkout'" id="checkout">

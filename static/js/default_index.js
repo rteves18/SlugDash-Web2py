@@ -189,7 +189,7 @@ var app = function() {
             product_search: '',
             cart_size: 0,
             cart_total: 0,
-            page: 'prod',
+            page: 'main_page',
             error_type: '',
             is_same_user: false
         },
