@@ -44,7 +44,7 @@
             </div>
 
             <div class="shopping_button right" v-if="page!='main_page' && !logged_in">
-                <button class="btn orange back-btn" v-on:click="goto('main_page')">
+                <button class="btn uni back-btn" v-on:click="goto('main_page')">
                        Back
                     </button>
             </div>
@@ -54,20 +54,20 @@
 
                 <!--Display Order History Page on click-->
                 <span v-if="page=='cart' || page=='safeway' || page=='ferrells' || page=='seven' || page=='soon'">
-                   <button class="btn orange back-btn" v-on:click="goto('main_page')">
+                   <button class="btn uni back-btn" v-on:click="goto('main_page')">
                        Back
                     </button>
                 </span>
 
                 <!--Display Order History Page on click-->
-                <span v-if="page=='cart' || page=='main_page' || page=='safeway' || page=='ferrells' || page=='seven'">
+                <span v-if="page=='cart' || page=='main_page' || page=='safeway' || page=='eight' || page=='seven'">
                     <button class="btn black"v-on:click="goto('order_list')">
                         <i class="fa fa-clock-o"></i> View Orders
                     </button>
                 </span>
 
                 <!--Display Cart Page on click-->
-                <span v-if="page=='checkout' || page=='main_page' || page=='safeway'|| page=='ferrells' || page=='seven'">
+                <span v-if="page=='checkout' || page=='main_page' || page=='safeway'|| page=='eight' || page=='seven'">
                     <button class="btn orange" v-on:click="goto('cart')">
                         <i class="fa fa-lg fa-shopping-cart"></i> ${cart_size}
                     </button>
@@ -132,7 +132,7 @@
 	            </div>
         <!--============================STORE SELECTION============================-->
 
-            <h2 class="select" v-if="logged_in">Select a Store or Shop!</h2>
+            <h2 class="select" v-if="logged_in">Select a Location</h2>
         <ul class="grid cs-style-2">
 				<li>
 					<figure>
@@ -151,7 +151,7 @@
 						<figcaption>
 							<h3>Ferrell's Donuts</h3>
                             <span class="on">Mission Street</span>
-							<a class="ani" v-on:click="goto('ferrells')">Select Shop</a>
+							<a class="ani" v-on:click="goto('eight')">Select Shop</a>
 						</figcaption>
 					</figure>
 				</li>
@@ -194,7 +194,7 @@
                             <figcaption>
                                 <h1>${product.product_name}</h1>
                                 <span class="item">$ ${product.price}</span>
-                                <div class="visible-lg-inline right">
+                                <div class="visible-sx-inline right">
                                 <button v-if="logged_in" class="btn btn-warning" v-on:click="buy_product(product._idx)"><i class="fa fa-lg fa-shopping-cart"></i> Add to Cart</button>
                                 <button v-if="!logged_in" class="btn btn-warning disabled">
                                     <i class="fa fa-lg fa-shopping-cart"></i> Add to Cart
@@ -210,11 +210,12 @@
                     </li>
                             </ul>
                     </div>
+
                     </div>
                     </div>
                 </div>
 
-            <button class="btn orange right" v-on:click="goto('main_page')">
+            <button class="btn uni right" v-on:click="goto('main_page')">
                 Back
             </button>
 
@@ -223,40 +224,40 @@
          <!--=========================^^===SAFEWAY===^^=========================-->
 
         <!--=========================vv===FERRELLS===vv=========================-->
-        <div v-if="page=='ferrells'">
-            <img class="ferrells_img center-block" src="{{=URL('static','images/ferrells_logo.png')}}"/>
+       <div v-if="page=='eight'">
             <div class="container-fluid">
             <div class="row">
-            <div v-for="product in products" class="col-sm-4">
-                <div v-if="page==product.location">
-                    <ul class="grid cs-style-3">
-				<li>
-					<figure>
-						<img v-bind:src="product.image_url" alt="img02">
-						<figcaption>
-							<h1>${product.product_name}</h1>
-                            <span class="item">$ ${product.price}</span>
-                            <div class="visible-lg-inline right">
-                            <button v-if="logged_in" class="btn btn-warning" v-on:click="buy_product(product._idx)"><i class="fa fa-lg fa-shopping-cart"></i> Add to Cart</button>
-                            <button v-if="!logged_in" class="btn btn-warning disabled">
-                                <i class="fa fa-lg fa-shopping-cart"></i> Add to Cart
-                            </button>
-                                <button class="btn" v-on:click="inc_desired_quantity(product._idx, -1)">
-                                <i class="fa fa-minus"></i>
-                            </button>
-                                <span class="desired_quantity">${product.desired_quantity}</span>
-                                <button class="btn" v-on:click="inc_desired_quantity(product._idx, 1)"><i class="fa fa-plus"></i></button>
-                            </div>
-						</figcaption>
-					</figure>
-				</li>
-                        </ul>
+            <div v-for="product in products">
+            <div v-if="page==product.location">
+                        <ul class="grid cs-style-3">
+                    <li>
+                        <figure>
+                            <img v-bind:src="product.image_url" alt="img02">
+                            <figcaption>
+                                <h1>${product.product_name}</h1>
+                                <span class="item">$ ${product.price}</span>
+                                <div class="visible-sx-inline right">
+                                <button v-if="logged_in" class="btn btn-warning" v-on:click="buy_product(product._idx)"><i class="fa fa-lg fa-shopping-cart"></i> Add to Cart</button>
+                                <button v-if="!logged_in" class="btn btn-warning disabled">
+                                    <i class="fa fa-lg fa-shopping-cart"></i> Add to Cart
+                                </button>
+                                    <button class="btn" v-on:click="inc_desired_quantity(product._idx, -1)">
+                                    <i class="fa fa-minus"></i>
+                                </button>
+                                    <span class="desired_quantity">${product.desired_quantity}</span>
+                                    <button class="btn" v-on:click="inc_desired_quantity(product._idx, 1)"><i class="fa fa-plus"></i></button>
+                                </div>
+                            </figcaption>
+                        </figure>
+                    </li>
+                            </ul>
+
                     </div>
                     </div>
                     </div>
                 </div>
 
-            <button class="btn orange right" v-on:click="goto('main_page')">
+            <button class="btn uni right" v-on:click="goto('main_page')">
                 Back
             </button>
 
@@ -269,7 +270,7 @@
             <img class="seven_img center-block" src="{{=URL('static','images/seven_logo.png')}}"/>
             <div class="container-fluid">
             <div class="row">
-            <div v-for="product in products" class="col-sm-4">
+            <div v-for="product in products" class="col-md-4">
                 <div v-if="page==product.location">
                         <ul class="grid cs-style-3">
                     <li>
@@ -278,7 +279,7 @@
                             <figcaption>
                                 <h1>${product.product_name}</h1>
                                 <span class="item">$ ${product.price}</span>
-                                <div class="visible-lg-inline right">
+                                <div class="visible-sx-inline right">
                                 <button v-if="logged_in" class="btn btn-warning" v-on:click="buy_product(product._idx)"><i class="fa fa-lg fa-shopping-cart"></i> Add to Cart</button>
                                 <button v-if="!logged_in" class="btn btn-warning disabled">
                                     <i class="fa fa-lg fa-shopping-cart"></i> Add to Cart
@@ -299,7 +300,7 @@
                     </div>
                 </div>
 
-            <button class="btn orange right" v-on:click="goto('main_page')">
+            <button class="btn uni right" v-on:click="goto('main_page')">
                 Back
             </button>
 
@@ -351,7 +352,7 @@
 					</figure>
 				</li>
         </ul>
-             <button class="btn orange right" v-on:click="goto('main_page')">
+             <button class="btn uni right" v-on:click="goto('main_page')">
                 Back
             </button>
         </div>

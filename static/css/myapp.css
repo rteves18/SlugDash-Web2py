@@ -98,8 +98,10 @@ table {
   border-right: 0px solid #dddddd;
 }
 
-div.uni{
-    padding: 40px;
+button.uni{
+    border-radius: 2px;
+    background: #16125B;
+	color: #fff;
 }
 
 .welcome{
@@ -116,10 +118,11 @@ div.uni{
 }
 
 .select{
-    color: lightslategrey;
-    text-align: center;
-    font-size: 80px;
+    color: #5D737E;
+    text-align: left;
+    font-size: 50px;
     font-family: 'Lato', Calibri, Arial, sans-serif;
+    padding-left: 200px;
     padding-bottom: 60px;
 }
 
