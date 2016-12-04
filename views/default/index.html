@@ -1,6 +1,6 @@
-
 {{extend 'layout.html'}}
-
+{{backimage = URL('static','images/antiquewhite.jpg')}}
+        <div class="hero-unit" style="background-image: url('{{=backimage}}')" >
 {{block head}}
 <script src="{{=URL('static', 'js/vue.js')}}"></script>
 <script src="https://checkout.stripe.com/checkout.js"></script>
@@ -423,6 +423,7 @@
     </div> <!--VUE JS-->
 
 </div> <!--MAIN CONTENT-->
+    </div>
 <script src="{{=URL('static','js/toucheffects.js')}}"></script>
     <script type="text/javascript">
         jQuery(document).ready(function() {
