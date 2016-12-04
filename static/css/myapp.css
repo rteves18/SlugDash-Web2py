@@ -58,11 +58,13 @@ div.main_content .product_image {
 }
 /* line 31, ../sass/_main.scss */
 div.main_content .shopping_button {
+    border-radius: 2px;
   margin-top: 10px;
   margin-bottom: 10px;
 }
 
 div.main_content .shopping_button button.back-btn{
+    border-radius: 2px;
   left: auto;
   margin-top: 10px;
   margin-bottom: 10px;
@@ -102,7 +104,7 @@ div.uni{
 
 .welcome{
     font-size: 100px;
-    color: lightslategrey;
+    color: #16125B;
     font-family: 'Lato', Calibri, Arial, sans-serif;
     text-align: center;
 }
