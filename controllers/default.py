@@ -211,7 +211,7 @@ def start_shift():
     )
 
     driver_id = db().select(db.driver_schedule.id)
-    print(driver_id)
+    print(type(driver_id))
     return dict(driver_id=driver_id)
 
 def end_shift():

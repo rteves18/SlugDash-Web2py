@@ -19,6 +19,8 @@ var app = function() {
                 self.vue.driver_location = 'Select a location';
             }
         );
+        self.get_schedule();
+        self.vue.goto('on_shift');
     };
 
     self.end_shift = function (){
@@ -31,6 +33,18 @@ var app = function() {
 
             }
         );
+        self.vue.goto('default');
+    };
+
+    /* GO TO PAGE */
+    self.goto = function (page) {
+        //self.get_orders();
+        self.vue.page = page;
+    };
+
+    self.warn = function(message, event){
+      if (event) event.preventDefault();
+      alert(message);
     };
 
     self.send_data_to_server = function () {
@@ -47,6 +61,16 @@ var app = function() {
         );
     };
 
+    self.get_schedule = function () {
+        $.getJSON(get_schedule_url, $.param({q: self.vue.page}), function(data) {
+
+        });
+    };
+
+    self.test = function () {
+        console.log("HELLO");
+    };
+
     self.vue = new Vue({
         el: "#vue-div",
         delimiters: ['${', '}'],
@@ -54,14 +78,20 @@ var app = function() {
         data: {
             is_on_shift: false,
             driver_location: 'Select a location',
+            page: 'default'
         },
         methods: {
+            get_schedule: self.get_schedule,
             start_shift: self.start_shift,
             end_shift: self.end_shift,
             send_data_to_server: self.send_data_to_server,
+            goto: self.goto,
+            warn: self.warn,
+            test: self.test,
         }
     });
 
+    self.get_schedule();
     $("#vue-div").show();
 
     return self;
