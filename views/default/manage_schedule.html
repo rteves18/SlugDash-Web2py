@@ -1,6 +1,17 @@
 {{extend 'layout.html'}}
-<!DOCTYPE html>
-<html lang="en">
+
+{{block head}}
+<script src="{{=URL('static', 'js/vue.js')}}"></script>
+<link href="{{=URL('static','css/animate.css')}}" rel="stylesheet" type="text/css"/>
+<script src="{{=URL('static','js/viewportchecker.js')}}"></script>
+<link href="{{=URL('static','css/component.css')}}" rel="stylesheet" type="text/css"/>
+<script src="{{=URL('static','js/modernizr.custom.js')}}"></script>
+<script>
+    var start_shift_url = "{{=URL('default', 'start_shift')}}";
+    var end_shift_url = "{{=URL('default', 'end_shift')}}";
+</script>
+{{end}}
+
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
@@ -42,11 +53,71 @@
         </tr>
     </table>
     -->
-    <div class="clean_table">
-    {{=form}}
+    <div id="vue-div" class="clean_table">
+
+        <!--Select location-->
+        <h4>Select a location to start delivering</h4>
+        <select v-model="driver_location" required>
+                <option disabled hidden>Select a location</option>
+                <option>Safeway</option>
+                <option>7-Eleven</option>
+                <option>Ferrells</option>
+        </select>
+
+        <!--Confirm shift-->
+        <button class="btn red" v-on:click="start_shift()">
+            Start shift
+        </button>
+
+        <button class="btn yellow" v-on:click="end_shift()">
+            End shift
+        </button>
+        <br><br>
+        {{=form}}
+        <br><br>
+        <h4>It is now {{=datetime.datetime.now()}}</h4>
+        {{current_time = datetime.datetime.now()}}
+        {{test_time = current_time.replace(hour=23, minute=50)}}
+        Test time is {{=test_time}}
+        {{for s in sched:}}
+            {{if test_time < s.end_shift_time:}}
+                <h4>There is still time</h4>
+            {{pass}}
+
+
+            {{if current_time > s.end_shift_time:}}
+                <h2></h2>
+                {{s.driver_name = "ROLE"}}
+                {{=s.driver_name}}
+                <h1>{{=s.end_shift_time}}</h1>
+
+            {{pass}}
+
+
+
+            <h4>is a driver on shift at safeway?
+            {{if s.is_on_shift == True and s.driver_location == "Safeway":}}
+                YES THERE IS
+            {{pass}}
+            </h4>
+
+            <h4>is a driver on shift at 7-eleven?
+            {{if s.is_on_shift == True and s.driver_location == "7-Eleven":}}
+                YES THERE IS
+            {{pass}}
+            </h4>
+
+            <h4>is a driver on shift at ferrells?
+            {{if s.is_on_shift == True and s.driver_location == "Ferrells":}}
+                YES THERE IS
+            {{pass}}
+            </h4>
+
+        {{pass}}
+
     </div>
 </body>
 
-<script src="{{=URL('static', 'js/default_manage_schedule.js')}}"></script>
+<script src="{{=URL('static','js/default_manage_schedule.js')}}"></script>
 
-</html>
+

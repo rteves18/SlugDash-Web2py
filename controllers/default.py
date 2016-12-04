@@ -8,10 +8,9 @@
 import traceback
 
 def index():
-    """
-    I am not doing anything here.  Look elsewhere.
-    """
-    return dict()
+    sched = db().select(db.driver_schedule.ALL)
+
+    return dict(sched=sched,)
 
 def set_timezone():
     """Ajax call to set the timezone information for the session."""
@@ -194,6 +193,32 @@ def manage_schedule():
     )
 
     return dict(form=form, sched=sched)
+
+def start_shift():
+
+    t = datetime.datetime.now()
+    if t.hour < 23:
+        new_t = t.replace(hour=t.hour+1)
+    elif t.hour == 23: #t.hour cannot go above 23, therefore I need to reset to 0 and add a new day
+        new_t = t.replace(hour=0, day=t.day+1)
+    else:
+        print("post_schedule else reached")
+
+    db.driver_schedule.insert(
+        driver_location=request.vars.driver_location,
+        is_on_shift=request.vars.is_on_shift,
+        end_shift_time=new_t,
+    )
+
+    driver_id = db().select(db.driver_schedule.id)
+    print(driver_id)
+    return dict(driver_id=driver_id)
+
+def end_shift():
+    db(db.driver_schedule.driver_email==auth.user.email).update(is_on_shift=False)
+    db(db.driver_schedule.driver_email == auth.user.email).update(
+        end_shift_time=datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S'))
+    return "ok"
 
 def user():
     """
