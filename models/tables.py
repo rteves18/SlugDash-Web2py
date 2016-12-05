@@ -51,7 +51,7 @@ db.define_table('driver_schedule',
                 Field('driver_id', default=auth.user_id, readable=False, writable=False), #saves user_id with times
                 Field('driver_email', default=auth.user.email if auth.user_id else None),
                 Field('driver_name', default=get_user_name_from_email(auth.user.email) if auth.user_id else None),
-                Field('driver_location', default=''),
+                Field('driver_location', 'text'),
                 #Field('first_interval', 'boolean', label='21:30 to 22:30'),
                 #Field('second_interval', 'boolean', label='22:30 to 23:30'),
                 #Field('third_interval', 'boolean', label='23:30 to 00:30'),

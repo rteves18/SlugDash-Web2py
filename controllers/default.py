@@ -94,9 +94,8 @@ def purchase():
     if not URL.verify(request, hmac_key=session.hmac_key):
         raise HTTP(500)
 
-    q = db().select(db.driver_schedule.ALL)
-    for d in db(db.driver_schedule.driver_location == 'safeway').select():
-       print("Safeway " + d.driver_email)
+    ds = db().select(db.driver_schedule.ALL)
+    co = db().select(db.customer_order.ALL)
 
     #for d in db(db.driver_schedule.driver_location == db.customer_order.order_location).select():
     #    print("Ferrells" + d.driver_email)
@@ -112,7 +111,8 @@ def purchase():
         order_location=request.vars.order_location,
         cart=request.vars.cart)
 
-    orders = db().select(db.customer_order.ALL)
+    assign_driver()
+
     #print(request.vars.cart)
 
     #for order in orders:
@@ -124,6 +124,15 @@ def purchase():
 
     return "ok"
 
+def assign_driver():
+    ds = db().select(db.driver_schedule.ALL)
+    co = db().select(db.customer_order.ALL)
+    for d in ds:
+        for c in co:
+            if c.order_location == d.driver_location:
+                db(db.customer_order.id == c.id).update(assigned_driver=d.driver_email)
+
+    return "ok"
 
 """ Get Driver at location ========================================================================
 def get_driver(location):

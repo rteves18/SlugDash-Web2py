@@ -115,3 +115,4 @@ success!
 timestamp: 2016-12-04T16:06:23.028158
 ALTER TABLE customer_order ADD order_location TEXT;
 success!
+success!
