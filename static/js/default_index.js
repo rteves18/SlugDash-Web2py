@@ -26,7 +26,9 @@ var app = function() {
             self.vue.products = data.products;
             self.vue.logged_in = data.logged_in;
             enumerate(self.vue.products);
+            //console.log(self.vue.products);
         });
+
     };
 
     // Retrieve order list
@@ -137,11 +139,12 @@ var app = function() {
             amount: Math.round(self.vue.cart_total * 100),
         });*/
         self.send_data_to_server();
+        self.get_orders();
+        self.goto('order_list');
     };
 
     self.send_data_to_server = function () {
-        console.log("Payment for:", self.customer_info);
-        console.log(self.vue.cart_total),
+        testObject = JSON.parse(JSON.stringify(self.vue.cart,['location']))
         // Calls the server.
         $.post(purchase_url,
             {
@@ -150,20 +153,25 @@ var app = function() {
                 delivery_location: self.vue.delivery_location,
                 order_total: self.vue.cart_total,
                 cart: JSON.stringify(self.vue.cart),
+                order_location: testObject[0].location,
             },
             function (data) {
                 // The order was successful.
                 self.vue.cart = [];
                 self.update_cart();
                 self.store_cart();
-                self.goto('main_page');
+                //self.goto('main_page');
                 self.flash_error('purchased');
             }
         );
+        //self.vue.cart = JSON.stringify(self.vue.cart);
+        console.log(JSON.parse(JSON.stringify(self.vue.cart,['location'])));
+        test = JSON.parse(JSON.stringify(self.vue.cart,['location']));
+        //self.vue.delivery_location = self.vue.delivery_location['location'];
+        console.log(typeof(test[0].location));
     };
 
     self.flash_error = function (error_type) {
-        console.log(typeof error_type);
         switch (error_type){
             case 'purchased':
                 $.web2py.flash("Thank you for your purchase!");
@@ -179,11 +187,14 @@ var app = function() {
         delimiters: ['${', '}'],
         unsafeDelimiters: ['!{', '}'],
         data: {
+            testObject: null,
             products: [],
+            product_location: '',
             cart: [],
             orders: [],
             delivery_location: 'Select a location',
             logged_in: false, //Check if user is logged in
+            is_logged_in: is_logged_in,
             product_search: '',
             cart_size: 0,
             cart_total: 0,

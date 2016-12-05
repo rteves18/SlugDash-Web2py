@@ -93,27 +93,14 @@ def purchase():
     """Ajax function called when a customer orders and pays for the cart."""
     if not URL.verify(request, hmac_key=session.hmac_key):
         raise HTTP(500)
-    #token = json.loads(request.vars.transaction_token)
-    #amount = float(request.vars.order_total)
-    # Creates the charge.
-    """ This is not working properly. Purchase does not go through
-    import stripe
-    # Your secret key.
-    stripe.api_key = "sk_test_pZ4tD6Pq0VuUCkSyXJ6Feb2T"
-    token = json.loads(request.vars.transaction_token)
-    amount = float(request.vars.order_total)
-    try:
-        charge = stripe.Charge.create(
-            amount=int(amount * 100),
-            currency="usd",
-            source=token['id'],
-            description="Purchase",
-        )
-    except stripe.error.CardError as e:
-        logger.info("The card has been declined.")
-        logger.info("%r" % traceback.format_exc())
-        return "nok"
-    """
+
+    q = db().select(db.driver_schedule.ALL)
+    for d in db(db.driver_schedule.driver_location == 'safeway').select():
+       print("Safeway " + d.driver_email)
+
+    #for d in db(db.driver_schedule.driver_location == db.customer_order.order_location).select():
+    #    print("Ferrells" + d.driver_email)
+
     db.customer_order.insert(
         #customer_info=request.vars.customer_info,
         delivery_location=request.vars.delivery_location,
@@ -122,8 +109,34 @@ def purchase():
         customer_name=get_user_name_from_email(auth.user.email),
         #user_email=request.vars.user_email,
         #transaction_token=json.dumps(token),
+        order_location=request.vars.order_location,
         cart=request.vars.cart)
+
+    orders = db().select(db.customer_order.ALL)
+    #print(request.vars.cart)
+
+    #for order in orders:
+    #    order.cart = json.loads(order.cart)
+    #    for item in order.cart:
+    #       print(item['location'])
+
+    #get_driver(db.customer_order.order_location)
+
     return "ok"
+
+
+""" Get Driver at location ========================================================================
+def get_driver(location):
+    drivers = db.driver_schedule.ALL
+
+
+
+
+
+ =============================================================================================== """
+
+
+
 
 
 # Normally here we would check that the user is an admin, and do programmatic
@@ -149,7 +162,7 @@ Need to work on:
     + Create group authentication to prevent certain users from accessing this page
     + Maybe work on improving the UI
 """
-@auth.requires_membership('super_admin')
+#@auth.requires_membership('super_admin')
 #@auth.requires(auth.has_membership(group_id='driver'))
 def view_orders():
     q = db.customer_order # This queries for all products.
@@ -176,10 +189,17 @@ def view_orders():
     )
     return dict(form=form, orders=orders)
 
+
+
 # Interface for managing schedule for drivers
 @auth.requires(auth.has_membership('super_admin') or auth.has_membership('driver'))
 def manage_schedule():
     q = db.driver_schedule
+    o = db.customer_order
+
+    orders = db().select(db.customer_order.ALL)
+    for order in orders:
+        order.cart = json.loads(order.cart)
 
     sched = db().select(db.driver_schedule.ALL)
 
@@ -192,8 +212,21 @@ def manage_schedule():
         details=True,
     )
 
-    return dict(form=form, sched=sched)
+    form2 = SQLFORM.grid(
+        o,
+        editable=True,
+        create=True,
+        user_signature=True,
+        deletable=True,
+        details=True,
+    )
 
+    return dict(form=form, sched=sched, orders=orders)
+
+
+
+
+@auth.requires(auth.has_membership('super_admin') or auth.has_membership('driver'))
 def start_shift():
 
     t = datetime.datetime.now()
@@ -204,21 +237,34 @@ def start_shift():
     else:
         print("post_schedule else reached")
 
+    #db(db.driver_schedule.driver_email == auth.user.email).delete
+
     db.driver_schedule.insert(
-        driver_location=request.vars.driver_location,
         is_on_shift=request.vars.is_on_shift,
+        driver_location=request.vars.driver_location,
         end_shift_time=new_t,
+        is_at_safeway=request.vars.is_at_safeway,
+        is_at_ferrells=request.vars.is_at_ferrells,
+        is_at_seveneleven=request.vars.is_at_seveneleven,
     )
 
     driver_id = db().select(db.driver_schedule.id)
-    print(type(driver_id))
+    #print(type(driver_id))
     return dict(driver_id=driver_id)
 
+
+
+@auth.requires(auth.has_membership('super_admin') or auth.has_membership('driver'))
 def end_shift():
     db(db.driver_schedule.driver_email==auth.user.email).update(is_on_shift=False)
+    db(db.driver_schedule.driver_email == auth.user.email).update(is_at_safeway=False)
+    db(db.driver_schedule.driver_email == auth.user.email).update(is_at_seveneleven=False)
+    db(db.driver_schedule.driver_email == auth.user.email).update(is_at_ferrells=False)
     db(db.driver_schedule.driver_email == auth.user.email).update(
         end_shift_time=datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S'))
     return "ok"
+
+
 
 def user():
     """
@@ -237,7 +283,6 @@ def user():
     also notice there is http://..../[app]/appadmin/manage/auth to allow administrator to manage users
     """
     return dict(form=auth())
-
 
 @cache.action()
 def download():

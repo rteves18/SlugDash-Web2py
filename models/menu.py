@@ -50,7 +50,7 @@ def _():
     # ------------------------------------------------------------------------------------------------------------------
 
     # Display top nav bar according to membership
-    if auth.has_membership('super_admin'):
+    if auth.has_membership('super_admin') or auth.has_membership('driver'):
         response.menu += [
             (T('View Orders'), False, URL('default', 'view_orders')),
             (T('Manage Products'), False, URL('default', 'product_management')),

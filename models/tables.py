@@ -41,6 +41,8 @@ db.define_table('customer_order',
                 #Field('customer_info', 'blob'),
                 #Field('transaction_token', 'blob'),
                 Field('cart', 'blob'),
+                Field('assigned_driver', default=auth.user.email if auth.user_id else None),
+                Field('order_location', 'text'),
                 )
 
 # Driver scheduling table
@@ -56,11 +58,13 @@ db.define_table('driver_schedule',
                 Field('signup_time', default=datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')),
                 Field('end_shift_time', 'datetime'),
                 Field('is_on_shift', 'boolean'),
+                Field('is_at_safeway', 'boolean'),
+                Field('is_at_ferrells', 'boolean'),
+                Field('is_at_seveneleven', 'boolean'),
                 )
 
 # Requirements
 #db.driver_schedule.signup_date.requires=IS_NOT_EMPTY()
-
 # =============================================================
 
 # Let's define a secret key for stripe transactions.

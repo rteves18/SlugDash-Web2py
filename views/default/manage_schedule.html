@@ -62,9 +62,9 @@
             <h4>Select a location to start delivering</h4>
             <select v-model="driver_location" required>
                     <option disabled hidden>Select a location</option>
-                    <option>Safeway</option>
-                    <option>7-Eleven</option>
-                    <option>Ferrells</option>
+                    <option>safeway</option>
+                    <option>seven</option>
+                    <option>eight</option>
             </select>
 
             <!--Confirm shift-->
@@ -102,6 +102,45 @@
             Back
             </button>
         </div>
+
+
+        <!--Orders-->
+        <div class="clean_table">
+        <table>
+            <tr>
+                <th>Order Time</th>
+                <th>Name</th>
+                <th>Purchased Item</th>
+                <th>Purchased From</th>
+                <th>Quantity</th>
+                <th>Order Total</th>
+                <th>Delivery Location</th>
+                <th>Assigned Driver</th>
+            </tr>
+            {{for o in orders:}}
+            <tr>
+                <th>{{=o.order_date}}</th>
+                <th>{{=o.customer_name}}</th>
+                <th>
+                    {{for item in o.cart:}}
+                        {{=item['product_name']}}<br>
+                    {{pass}}
+                </th>
+                <th>
+                    {{=o.order_location}}
+                </th>
+                <th>
+                    {{for item in o.cart:}}
+                        {{=item['desired_quantity']}}<br>
+                    {{pass}}
+                </th>
+                <th>${{=o.order_total}}</th>
+                <th>{{=o.delivery_location}}
+                </th>
+                <th>{{=o.assigned_driver}}</th>
+            </tr>
+            {{pass}}
+        </table>
 
 
         <br><br><br>

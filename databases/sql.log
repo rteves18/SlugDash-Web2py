@@ -102,3 +102,16 @@ success!
 timestamp: 2016-12-03T22:45:10.630719
 ALTER TABLE driver_schedule ADD is_on_shift CHAR(1);
 success!
+timestamp: 2016-12-04T12:04:14.074642
+ALTER TABLE driver_schedule ADD is_at_safeway CHAR(1);
+timestamp: 2016-12-04T12:04:14.076359
+ALTER TABLE driver_schedule ADD is_at_seveneleven CHAR(1);
+timestamp: 2016-12-04T12:04:14.078054
+ALTER TABLE driver_schedule ADD is_at_ferrells CHAR(1);
+success!
+timestamp: 2016-12-04T15:37:22.660959
+ALTER TABLE customer_order ADD assigned_driver CHAR(512);
+success!
+timestamp: 2016-12-04T16:06:23.028158
+ALTER TABLE customer_order ADD order_location TEXT;
+success!
