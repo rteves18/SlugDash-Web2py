@@ -211,16 +211,26 @@
         <!--=========================vv===SAFEWAY===vv=========================-->
         <div v-if="page=='safeway'">
             <img class="safeway_img center-block" src="{{=URL('static','images/safeway_logo.png')}}"/>
-
-            <!--Display driver status at a location-->
-            <div v-if="is_safeway == false" class="clean_table">
-                <h4>There is currently no driver at Safeway</h4>
-            </div>
-            <div v-if="is_safeway == true" class="clean_table">
-                <h4>There is currently a driver at Safeway</h4>
-            </div>
-
             <div class="container-fluid">
+            <!--Display driver status at a location-->
+            <div v-if="is_safeway == false" class="center-block">
+
+                <h4 class="no_driver center-block">
+                    There is currently no driver at Safeway.
+                    <i class="fa fa-lg fa-times-circle ex_red"></i>
+                    </br> Come check back soon!
+
+                </h4>
+            </div>
+            <div v-if="is_safeway == true" class="center-block">
+                <h4 class="yes_driver center-block">
+                    There is currently a driver at Safeway.
+                    <i class="fa fa-lg fa-check-circle check_green"></i>
+                    </br> You may place an order!
+                </h4>
+            </div>
+
+
             <div class="row">
             <div v-for="product in products" class="col-sm-4">
                 <div v-if="page==product.location">
@@ -271,13 +281,23 @@
 
         <!--=========================vv===FERRELLS===vv=========================-->
         <div v-if="page=='eight'">
-
+        <img class="ferrells_img center-block" src="{{=URL('static','images/ferrells_logo.png')}}"/>
             <!--Display driver status at a location-->
-            <div v-if="is_ferrells == false" class="clean_table">
-                <h4>There is currently no driver at Ferrells</h4>
+           <div v-if="is_ferrells == false" class="center-block">
+
+                <h4 class="no_driver center-block">
+                    There is currently no driver at Ferrells.
+                    <i class="fa fa-lg fa-times-circle ex_red"></i>
+                    </br> Come check back soon!
+
+                </h4>
             </div>
-            <div v-if="is_ferrells == true" class="clean_table">
-                <h4>There is currently a driver at Ferrells</h4>
+            <div v-if="is_ferrells == true" class="center-block">
+                <h4 class="yes_driver center-block">
+                    There is currently a driver at Ferrells.
+                    <i class="fa fa-lg fa-check-circle check_green"></i>
+                    </br> You may place an order!
+                </h4>
             </div>
 
             <div class="container-fluid">
@@ -324,11 +344,21 @@
             <img class="seven_img center-block" src="{{=URL('static','images/seven_logo.png')}}"/>
 
             <!--Display driver status at a location-->
-            <div v-if="is_seveneleven == false" class="clean_table">
-                <h4>There is currently no driver at 7-Eleven</h4>
+            <div v-if="is_seveneleven == false" class="center-block">
+
+                <h4 class="no_driver center-block">
+                    There is currently no driver at 7-Eleven.
+                    <i class="fa fa-lg fa-times-circle ex_red"></i>
+                    </br> Come check back soon!
+
+                </h4>
             </div>
-            <div v-if="is_seveneleven == true" class="clean_table">
-                <h4>There is currently a driver at 7-Eleven</h4>
+            <div v-if="is_seveneleven == true" class="center-block">
+                <h4 class="yes_driver center-block">
+                    There is currently a driver at 7-Eleven.
+                    <i class="fa fa-lg fa-check-circle check_green"></i>
+                    </br> You may place an order!
+                </h4>
             </div>
 
             <div class="container-fluid">

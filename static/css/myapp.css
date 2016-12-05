@@ -128,14 +128,45 @@ button.uni{
 
 img.safeway_img{
     width: 500px;
+    padding-bottom: 20px;
 }
 
 img.ferrells_img{
     width: 274px;
+    padding-bottom: 20px;
 }
 
 img.seven_img{
     width: 200px;
+    padding-bottom: 20px;
+}
+
+h4.no_driver{
+    border-left: 6px solid red;
+    border-radius: 5px;
+    background-color: #16125B;
+    font-weight: lighter;
+    color: #ffffff;
+    padding: 10px 20px 10px 10px;
+    width: 400px;
+}
+
+h4.yes_driver{
+    border-left: 6px solid green;
+    border-radius: 5px;
+    background-color: #16125B;
+    font-weight: lighter;
+    color: #ffffff;
+    padding: 10px 20px 10px 10px;
+    width: 400px;
+}
+
+i.check_green{
+    color: lightgreen;
+}
+
+i.ex_red{
+    color: red;
 }
 
 .post{
