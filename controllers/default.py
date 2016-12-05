@@ -235,7 +235,7 @@ def manage_schedule():
     return dict(form=form, sched=sched, orders=orders)
 
 
-
+start_shift_id = 0
 
 @auth.requires(auth.has_membership('super_admin') or auth.has_membership('driver'))
 def start_shift():
@@ -259,9 +259,9 @@ def start_shift():
         is_at_seveneleven=request.vars.is_at_seveneleven,
     )
 
-    driver_id = db().select(db.driver_schedule.id)
+    start_shift_id = db().select(db.driver_schedule.id)
     #print(type(driver_id))
-    return dict(driver_id=driver_id)
+    return "ok"
 
 
 
@@ -271,8 +271,12 @@ def end_shift():
     db(db.driver_schedule.driver_email == auth.user.email).update(is_at_safeway=False)
     db(db.driver_schedule.driver_email == auth.user.email).update(is_at_seveneleven=False)
     db(db.driver_schedule.driver_email == auth.user.email).update(is_at_ferrells=False)
-    db(db.driver_schedule.driver_email == auth.user.email).update(
-        end_shift_time=datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S'))
+
+    ds = db().select(db.driver_schedule.ALL)
+    for d in ds:
+        if db.driver_schedule.id == start_shift_id:
+            db(db.driver_schedule.driver_email == auth.user.email).update(
+                end_shift_time=datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S'))
     return "ok"
 
 
