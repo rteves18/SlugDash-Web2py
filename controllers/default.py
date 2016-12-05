@@ -206,7 +206,9 @@ def manage_schedule():
     q = db.driver_schedule
     o = db.customer_order
 
-    orders = db().select(db.customer_order.ALL)
+    orders = db(db.customer_order.assigned_driver == auth.user.email).select(db.customer_order.ALL,
+                                                                        orderby=~db.customer_order.order_date)
+
     for order in orders:
         order.cart = json.loads(order.cart)
 
