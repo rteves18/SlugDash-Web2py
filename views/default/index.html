@@ -34,6 +34,7 @@
     {{pass}}
 
     console.log(is_seveneleven)
+    console.log("safeway" + is_safeway)
 
 </script>
 {{end}}
@@ -117,10 +118,12 @@
                             <th>Order Time</th>
                             <!--<th>Name</th>
                             <th>Shipping Address</th>-->
-                            <th>Purchased Product</th>
+                            <th>Purchased Item</th>
+                            <th>Purchased From</th>
                             <th>Quantity</th>
                             <th>Order Total</th>
                             <th>Delivery Location</th>
+                            <th>Assigned Driver</th>
                             <th>Product Image</th>
                         </tr>
                         <tr>
@@ -133,10 +136,12 @@
                                 ${order.customer_info['shipping_address_zip']}
                             </th>-->
                             <th>${item['product_name']}</th>
+                            <th>${order.order_location}</th>
                             <th>${item['desired_quantity']}</th>
                             <th>${(item['price']*item['desired_quantity']).toFixed(2)}
                             </th>
                             <th>${order.delivery_location}</th>
+                            <th>${order.assigned_driver}</th>
                             <th><img v-bind:src="item['image_url']" style="max-width: 30%; max-height: 30%"/></th>
                         </tr>
                     </table>
@@ -228,11 +233,11 @@
                                 <span class="item">$ ${product.price}</span>
                                 <div class="visible-sx-inline right">
 
-                                <button v-if="is_logged_in && is_safeway" class="btn btn-warning" v-on:click="buy_product(product._idx)">
+                                <button v-if="is_logged_in && this.is_safeway" class="btn btn-warning" v-on:click="buy_product(product._idx)">
                                     <i class="fa fa-lg fa-shopping-cart"></i> Add to Cart
                                 </button>
 
-                                <button v-if="!is_logged_in || !is_safeway" class="btn btn-warning disabled">
+                                <button v-if="!is_logged_in || !this.is_safeway" class="btn btn-warning disabled">
                                     <i class="fa fa-lg fa-shopping-cart"></i> Add to Cart
                                 </button>
 
@@ -287,8 +292,8 @@
                                 <h1>${product.product_name}</h1>
                                 <span class="item">$ ${product.price}</span>
                                 <div class="visible-sx-inline right">
-                                <button v-if="logged_in" class="btn btn-warning" v-on:click="buy_product(product._idx)"><i class="fa fa-lg fa-shopping-cart"></i> Add to Cart</button>
-                                <button v-if="!logged_in" class="btn btn-warning disabled">
+                                <button v-if="is_logged_in && this.is_ferrells" class="btn btn-warning" v-on:click="buy_product(product._idx)"><i class="fa fa-lg fa-shopping-cart"></i> Add to Cart</button>
+                                <button v-if="!logged_in || !this.is_ferrells" class="btn btn-warning disabled">
                                     <i class="fa fa-lg fa-shopping-cart"></i> Add to Cart
                                 </button>
                                     <button class="btn" v-on:click="inc_desired_quantity(product._idx, -1)">
@@ -338,8 +343,8 @@
                                 <h1>${product.product_name}</h1>
                                 <span class="item">$ ${product.price}</span>
                                 <div class="visible-sx-inline right">
-                                <button v-if="logged_in" class="btn btn-warning" v-on:click="buy_product(product._idx)"><i class="fa fa-lg fa-shopping-cart"></i> Add to Cart</button>
-                                <button v-if="!logged_in" class="btn btn-warning disabled">
+                                <button v-if="is_logged_in && this.is_seveneleven" class="btn btn-warning" v-on:click="buy_product(product._idx)"><i class="fa fa-lg fa-shopping-cart"></i> Add to Cart</button>
+                                <button v-if="!logged_in || !this.is_seveneleven" class="btn btn-warning disabled">
                                     <i class="fa fa-lg fa-shopping-cart"></i> Add to Cart
                                 </button>
                                     <button class="btn" v-on:click="inc_desired_quantity(product._idx, -1)">
