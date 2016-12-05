@@ -34,6 +34,7 @@ var app = function() {
         );
         self.get_schedule();
         self.vue.goto('on_shift');
+        self.vue.refreshPage();
     };
 
     self.end_shift = function (){
@@ -57,6 +58,7 @@ var app = function() {
             }
         );
         self.vue.goto('default');
+
     };
 
     /* GO TO PAGE */
@@ -88,6 +90,10 @@ var app = function() {
         $.getJSON(get_schedule_url, $.param({q: self.vue.page}), function(data) {
 
         });
+    };
+
+    self.refreshPage = function () {
+        window.location.reload();
     };
 
     self.test = function () {

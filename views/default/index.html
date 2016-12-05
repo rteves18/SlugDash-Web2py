@@ -16,9 +16,15 @@
     var is_safeway = false, is_seveneleven = false, is_ferrells = false;
 
     {{for s in sched:}}
-        is_safeway = {{='true' if s.is_at_safeway else 'false'}};
-        is_seveneleven = {{='true' if s.is_at_seveneleven else 'false'}};
-        is_ferrells = {{='true' if s.is_at_ferrells else 'false'}};
+        {{if s.is_at_safeway:}}
+            is_safeway = true;
+        {{pass}}
+        {{if s.is_at_seveneleven:}}
+            is_seveneleven = true;
+        {{pass}}
+        {{if s.is_at_ferrells:}}
+            is_ferrells = true;
+        {{pass}}
     {{pass}}
 
 </script>
@@ -192,18 +198,13 @@
         <!--=========================vv===SAFEWAY===vv=========================-->
         <div v-if="page=='safeway'">
             <img class="safeway_img center-block" src="{{=URL('static','images/safeway_logo.png')}}"/>
-            {{if sched is None:}}
-                <h4>There is currently NO driver at Safeway</h4>
-            {{pass}}
+
             {{for s in sched:}}
-                {{if s.is_at_safeway is True:}}
-                    {{if datetime.datetime.now() <= s.end_shift_time:}}
+                {{if s.is_at_safeway:}}
                     <h4>There is currently a driver at Safeway</h4>
-                    {{else:}}
-                    <h4>There is currently NO driver at Safeway</h4>
-                    {{pass}}
-                {{else:}}
-                    <h4>There is currently NO driver at Safeway</h4>
+                {{pass}}
+                {{if s.is_at_safeway is False:}}
+                    <h4>There is currently no drivers at Safeway</h4>
                 {{pass}}
             {{pass}}
             <div class="container-fluid">
@@ -219,11 +220,11 @@
                                 <span class="item">$ ${product.price}</span>
                                 <div class="visible-sx-inline right">
 
-                                <button v-if="is_logged_in" class="btn btn-warning" v-on:click="buy_product(product._idx)">
+                                <button v-if="is_logged_in && is_safeway" class="btn btn-warning" v-on:click="buy_product(product._idx)">
                                     <i class="fa fa-lg fa-shopping-cart"></i> Add to Cart
                                 </button>
 
-                                <button v-if="!is_logged_in" class="btn btn-warning disabled">
+                                <button v-if="!is_logged_in || !is_safeway" class="btn btn-warning disabled">
                                     <i class="fa fa-lg fa-shopping-cart"></i> Add to Cart
                                 </button>
 
@@ -257,6 +258,14 @@
 
         <!--=========================vv===FERRELLS===vv=========================-->
        <div v-if="page=='eight'">
+           {{for s in sched:}}
+                {{if s.is_at_ferrells:}}
+                    <h4>There is currently a driver at Ferrells</h4>
+                {{pass}}
+                {{if s.is_at_ferrells is False:}}
+                    <h4>There is currently no drivers at Ferells</h4>
+                {{pass}}
+            {{pass}}
             <div class="container-fluid">
             <div class="row">
             <div v-for="product in products">
@@ -300,6 +309,16 @@
         <!--=========================vv===7-Eleven===vv=========================-->
         <div v-if="page=='seven'">
             <img class="seven_img center-block" src="{{=URL('static','images/seven_logo.png')}}"/>
+
+            {{for s in sched:}}
+                {{if s.is_at_seveneleven:}}
+                    <h4>There is currently a driver at Seven Eleven</h4>
+                {{pass}}
+                {{if s.is_at_seveneleven is False:}}
+                    <h4>There is currently no drivers at Seven Eleven</h4>
+                {{pass}}
+            {{pass}}
+
             <div class="container-fluid">
             <div class="row">
             <div v-for="product in products" class="col-md-4">
