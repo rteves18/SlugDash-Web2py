@@ -19,13 +19,21 @@
         {{if s.is_at_safeway:}}
             is_safeway = true;
         {{pass}}
-        {{if s.is_at_seveneleven:}}
-            is_seveneleven = true;
-        {{pass}}
-        {{if s.is_at_ferrells:}}
+    {{pass}}
+
+    {{for s2 in sched2:}}
+        {{if s2.is_at_ferrells:}}
             is_ferrells = true;
         {{pass}}
     {{pass}}
+
+    {{for s3 in sched3:}}
+        {{if s3.is_at_seveneleven:}}
+            is_seveneleven = true;
+        {{pass}}
+    {{pass}}
+
+    console.log(is_seveneleven)
 
 </script>
 {{end}}
@@ -199,14 +207,14 @@
         <div v-if="page=='safeway'">
             <img class="safeway_img center-block" src="{{=URL('static','images/safeway_logo.png')}}"/>
 
-            {{for s in sched:}}
-                {{if s.is_at_safeway:}}
-                    <h4>There is currently a driver at Safeway</h4>
-                {{pass}}
-                {{if s.is_at_safeway is False:}}
-                    <h4>There is currently no drivers at Safeway</h4>
-                {{pass}}
-            {{pass}}
+            <!--Display driver status at a location-->
+            <div v-if="is_safeway == false" class="clean_table">
+                <h4>There is currently no driver at Safeway</h4>
+            </div>
+            <div v-if="is_safeway == true" class="clean_table">
+                <h4>There is currently a driver at Safeway</h4>
+            </div>
+
             <div class="container-fluid">
             <div class="row">
             <div v-for="product in products" class="col-sm-4">
@@ -257,15 +265,16 @@
         <!--=========================^^===SAFEWAY===^^=========================-->
 
         <!--=========================vv===FERRELLS===vv=========================-->
-       <div v-if="page=='eight'">
-           {{for s in sched:}}
-                {{if s.is_at_ferrells:}}
-                    <h4>There is currently a driver at Ferrells</h4>
-                {{pass}}
-                {{if s.is_at_ferrells is False:}}
-                    <h4>There is currently no drivers at Ferells</h4>
-                {{pass}}
-            {{pass}}
+        <div v-if="page=='eight'">
+
+            <!--Display driver status at a location-->
+            <div v-if="is_ferrells == false" class="clean_table">
+                <h4>There is currently no driver at Ferrells</h4>
+            </div>
+            <div v-if="is_ferrells == true" class="clean_table">
+                <h4>There is currently a driver at Ferrells</h4>
+            </div>
+
             <div class="container-fluid">
             <div class="row">
             <div v-for="product in products">
@@ -301,8 +310,7 @@
             <button class="btn uni right" v-on:click="goto('main_page')">
                 Back
             </button>
-
-         </div>
+        </div>
 
          <!--=========================^^===FERRELLS===^^=========================-->
 
@@ -310,14 +318,13 @@
         <div v-if="page=='seven'">
             <img class="seven_img center-block" src="{{=URL('static','images/seven_logo.png')}}"/>
 
-            {{for s in sched:}}
-                {{if s.is_at_seveneleven:}}
-                    <h4>There is currently a driver at Seven Eleven</h4>
-                {{pass}}
-                {{if s.is_at_seveneleven is False:}}
-                    <h4>There is currently no drivers at Seven Eleven</h4>
-                {{pass}}
-            {{pass}}
+            <!--Display driver status at a location-->
+            <div v-if="is_seveneleven == false" class="clean_table">
+                <h4>There is currently no driver at 7-Eleven</h4>
+            </div>
+            <div v-if="is_seveneleven == true" class="clean_table">
+                <h4>There is currently a driver at 7-Eleven</h4>
+            </div>
 
             <div class="container-fluid">
             <div class="row">

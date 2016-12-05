@@ -8,9 +8,23 @@
 import traceback
 
 def index():
-    sched = db().select(db.driver_schedule.ALL)
+    sched = db(db.driver_schedule.is_at_safeway is True).select(db.driver_schedule.ALL)
+    sched2 = db(db.driver_schedule.is_at_ferrells is True).select(db.driver_schedule.ALL)
+    sched3 = db(db.driver_schedule.is_at_seveneleven is True).select(db.driver_schedule.ALL)
 
-    return dict(sched=sched,)
+    q = db().select(db.driver_schedule.ALL)
+    print(sched)
+    print(sched2)
+    print(sched3)
+
+    """
+    for o in q:
+        print(o.is_at_safeway)
+        print(o.is_at_ferrells)
+        print(o.is_at_seveneleven)
+        print("\n")
+    """
+    return dict(sched=sched,sched2=sched2,sched3=sched3)
 
 def set_timezone():
     """Ajax call to set the timezone information for the session."""
@@ -231,6 +245,9 @@ def manage_schedule():
         deletable=True,
         details=True,
     )
+
+    for s in sched:
+        print(s.id)
 
     return dict(form=form, sched=sched, orders=orders)
 
