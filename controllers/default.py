@@ -220,8 +220,8 @@ def manage_schedule():
     q = db.driver_schedule
     o = db.customer_order
 
-    orders = db(db.customer_order.assigned_driver == auth.user.email).select(db.customer_order.ALL,
-                                                                        orderby=~db.customer_order.order_date)
+    orders = db(db.customer_order.assigned_driver == auth.user.email).select(
+        db.customer_order.ALL, orderby=~db.customer_order.order_date)
 
     for order in orders:
         order.cart = json.loads(order.cart)
@@ -246,8 +246,8 @@ def manage_schedule():
         details=True,
     )
 
-    for s in sched:
-        print(s.id)
+    #for s in sched:
+    #    print(s.id)
 
     return dict(form=form, sched=sched, orders=orders)
 
@@ -260,12 +260,10 @@ def start_shift():
     t = datetime.datetime.now()
     if t.hour < 23:
         new_t = t.replace(hour=t.hour+1)
-    elif t.hour == 23: #t.hour cannot go above 23, therefore I need to reset to 0 and add a new day
+    elif t.hour == 23: #t.hour cannot go above 23, need to reset to 0 and add a new day
         new_t = t.replace(hour=0, day=t.day+1)
     else:
         print("post_schedule else reached")
-
-    #db(db.driver_schedule.driver_email == auth.user.email).delete
 
     db.driver_schedule.insert(
         is_on_shift=request.vars.is_on_shift,
@@ -276,24 +274,35 @@ def start_shift():
         is_at_seveneleven=request.vars.is_at_seveneleven,
     )
 
+    # Grabs last id from driver who signed up for shift and store in db
+    s_id = db(db.driver_schedule.driver_email == auth.user.email).select(db.driver_schedule.id).last()
+    db(db.driver_schedule.driver_email == auth.user.email).update(schedule_id=s_id['id'])
+
     start_shift_id = db().select(db.driver_schedule.id)
-    #print(type(driver_id))
     return "ok"
 
 
-
-@auth.requires(auth.has_membership('super_admin') or auth.has_membership('driver'))
+# ends current shift
+@auth.requires(auth.has_membership('admin') or auth.has_membership('driver'))
 def end_shift():
-    db(db.driver_schedule.driver_email==auth.user.email).update(is_on_shift=False)
-    db(db.driver_schedule.driver_email == auth.user.email).update(is_at_safeway=False)
-    db(db.driver_schedule.driver_email == auth.user.email).update(is_at_seveneleven=False)
-    db(db.driver_schedule.driver_email == auth.user.email).update(is_at_ferrells=False)
+    db(db.driver_schedule.driver_email == auth.user.email).update(is_on_shift=False,
+                                                                  is_at_safeway=False,
+                                                                  is_at_seveneleven=False,
+                                                                  is_at_ferrells=False)
+    ds = db(db.driver_schedule.driver_email == auth.user.email).select(db.driver_schedule.ALL)
+    #print(db(db.driver_schedule.driver_email == auth.user.email).select(db.driver_schedule.id).last())
 
-    ds = db().select(db.driver_schedule.ALL)
     for d in ds:
-        if db.driver_schedule.id == start_shift_id:
-            db(db.driver_schedule.driver_email == auth.user.email).update(
-                end_shift_time=datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S'))
+        #d.id = db(db.driver_schedule.driver_email == auth.user.email).select(db.driver_schedule.id).last()
+        #print(d.id['id'])
+        db(db.driver_schedule.id == d.schedule_id).update(end_shift_time=datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S'))
+
+    db(db.driver_schedule.driver_email == auth.user.email).update(
+        end_shift_time=datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S'))
+
+    #db(db.driver_schedule.id == auth.user.email).update(
+    #            end_shift_time=datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S'))
+
     return "ok"
 
 

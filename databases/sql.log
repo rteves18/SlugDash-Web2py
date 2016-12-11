@@ -116,3 +116,12 @@ timestamp: 2016-12-04T16:06:23.028158
 ALTER TABLE customer_order ADD order_location TEXT;
 success!
 success!
+timestamp: 2016-12-06T23:33:51.176376
+ALTER TABLE driver_schedule ADD schedule_id INTEGER;
+success!
+success!
+success!
+success!
+success!
+success!
+success!

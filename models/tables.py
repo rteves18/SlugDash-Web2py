@@ -52,15 +52,13 @@ db.define_table('driver_schedule',
                 Field('driver_email', default=auth.user.email if auth.user_id else None),
                 Field('driver_name', default=get_user_name_from_email(auth.user.email) if auth.user_id else None),
                 Field('driver_location', 'text'),
-                #Field('first_interval', 'boolean', label='21:30 to 22:30'),
-                #Field('second_interval', 'boolean', label='22:30 to 23:30'),
-                #Field('third_interval', 'boolean', label='23:30 to 00:30'),
                 Field('signup_time', default=datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')),
                 Field('end_shift_time', 'datetime'),
                 Field('is_on_shift', 'boolean'),
                 Field('is_at_safeway', 'boolean'),
                 Field('is_at_ferrells', 'boolean'),
                 Field('is_at_seveneleven', 'boolean'),
+                Field('schedule_id', 'integer'),
                 )
 
 # Requirements
